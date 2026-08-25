@@ -1,0 +1,395 @@
+fileFormatVersion: 2
+guid: 9d015d751ffb68747a040231bdfe7d99
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7387160451242690550
+    second: tinyShip1 2-1.png (2) 1_0
+  - first:
+      213: 6583500875786598804
+    second: tinyShip1 2-1.png (2) 1_1
+  - first:
+      213: 703239574876268621
+    second: tinyShip1 2-1.png (2) 1_2
+  - first:
+      213: -2061244073993949755
+    second: tinyShip1 2-1.png (2) 1_3
+  - first:
+      213: 2125401675616926562
+    second: tinyShip1 2-1.png (2) 1_4
+  - first:
+      213: -2823390456351485660
+    second: tinyShip1 2-1.png (2) 1_5
+  - first:
+      213: -1939864073679363038
+    second: tinyShip1 2-1.png (2) 1_6
+  - first:
+      213: -7625307181276531466
+    second: tinyShip1 2-1.png (2) 1_7
+  - first:
+      213: 4489759289049367111
+    second: tinyShip1 2-1.png (2) 1_8
+  - first:
+      213: 6228738436622409714
+    second: tinyShip1 2-1.png (2) 1_9
+  - first:
+      213: 8743230815840690432
+    second: tinyShip1 2-1.png (2) 1_10
+  - first:
+      213: -6506921093269600971
+    second: tinyShip1 2-1.png (2) 1_11
+  - first:
+      213: -4175169474770453254
+    second: tinyShip1 2-1.png (2) 1_12
+  - first:
+      213: -4470329400387534313
+    second: tinyShip1 2-1.png (2) 1_13
+  - first:
+      213: 8380127440753710739
+    second: tinyShip1 2-1.png (2) 1_14
+  - first:
+      213: 8289604465293975819
+    second: tinyShip1 2-1.png (2) 1_15
+  - first:
+      213: 3252604046352333672
+    second: tinyShip1 2-1.png (2) 1_16
+  - first:
+      213: -1214423865874352461
+    second: tinyShip1 2-1.png (2) 1_17
+  - first:
+      213: 1680972842651991575
+    second: tinyShip1 2-1.png (2) 1_18
+  - first:
+      213: -7502598753087002343
+    second: tinyShip1 2-1.png (2) 1_19
+  - first:
+      213: -589589054883997710
+    second: tinyShip1 2-1.png (2) 1_20
+  - first:
+      213: 3213689015639254868
+    second: tinyShip1 2-1.png (2) 1_21
+  - first:
+      213: 6210117654334024393
+    second: tinyShip1 2-1.png (2) 1_22
+  - first:
+      213: -5280025996920841813
+    second: tinyShip1 2-1.png (2) 1_23
+  - first:
+      213: 5815290838495112102
+    second: tinyShip1 2-1.png (2) 1_24
+  - first:
+      213: -2595186994257859260
+    second: tinyShip1 2-1.png (2) 1_25
+  - first:
+      213: -2691940264068955597
+    second: tinyShip1 2-1.png (2) 1_26
+  - first:
+      213: 4035393699781334131
+    second: tinyShip1 2-1.png (2) 1_27
+  - first:
+      213: -3980574709159753821
+    second: tinyShip1 2-1.png (2) 1_28
+  - first:
+      213: -3832101737393170109
+    second: tinyShip1 2-1.png (2) 1_29
+  - first:
+      213: 1448419825863433521
+    second: tinyShip1 2-1.png (2) 1_30
+  - first:
+      213: -3382849867446583861
+    second: tinyShip1 2-1.png (2) 1_31
+  - first:
+      213: -2958015228811807962
+    second: tinyShip1 2-1.png (2) 1_32
+  - first:
+      213: 6242699511270862766
+    second: tinyShip1 2-1.png (2) 1_33
+  - first:
+      213: -5750699459793051996
+    second: tinyShip1 2-1.png (2) 1_34
+  - first:
+      213: 5990511428708832947
+    second: tinyShip1 2-1.png (2) 1_35
+  - first:
+      213: 8646320531203563682
+    second: tinyShip1 2-1.png (2) 1_36
+  - first:
+      213: -5697550194789588340
+    second: tinyShip1 2-1.png (2) 1_37
+  - first:
+      213: 8502113179541971223
+    second: tinyShip1 2-1.png (2) 1_38
+  - first:
+      213: 2540364094627957582
+    second: tinyShip1 2-1.png (2) 1_39
+  - first:
+      213: -8506676590192617205
+    second: tinyShip1 2-1.png (2) 1_40
+  - first:
+      213: 2801651414075717220
+    second: tinyShip1 2-1.png (2) 1_41
+  - first:
+      213: -4866641126131426567
+    second: tinyShip1 2-1.png (2) 1_42
+  - first:
+      213: 5068433835697765564
+    second: tinyShip1 2-1.png (2) 1_43
+  - first:
+      213: -2846511669493273465
+    second: tinyShip1 2-1.png (2) 1_44
+  - first:
+      213: 2710058398876466065
+    second: tinyShip1 2-1.png (2) 1_45
+  - first:
+      213: -2876153250585079423
+    second: tinyShip1 2-1.png (2) 1_46
+  - first:
+      213: 4038073043934852473
+    second: tinyShip1 2-1.png (2) 1_47
+  - first:
+      213: 385298330275782036
+    second: tinyShip1 2-1.png (2) 1_48
+  - first:
+      213: 1031772073717485773
+    second: tinyShip1 2-1.png (2) 1_49
+  - first:
+      213: 3151060160668709067
+    second: tinyShip1 2-1.png (2) 1_50
+  - first:
+      213: 5389573452557975143
+    second: tinyShip1 2-1.png (2) 1_51
+  - first:
+      213: 4804923293875725472
+    second: tinyShip1 2-1.png (2) 1_52
+  - first:
+      213: -6013152876139688710
+    second: tinyShip1 2-1.png (2) 1_53
+  - first:
+      213: 4316916076562431684
+    second: tinyShip1 2-1.png (2) 1_54
+  - first:
+      213: -3358481478069297587
+    second: tinyShip1 2-1.png (2) 1_55
+  - first:
+      213: 5115032625410333003
+    second: tinyShip1 2-1.png (2) 1_56
+  - first:
+      213: -508787452562089618
+    second: tinyShip1 2-1.png (2) 1_57
+  - first:
+      213: 2774886483529903061
+    second: tinyShip1 2-1.png (2) 1_58
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: VisionOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: tvOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tinyShip1 2-1.png (2) 1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 340
+        height: 355
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f78223aa47748660800000000000000
+      internalID: 7387160451242690550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 33f6fd1350c3ce14a9e5ef85da0f707b
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      tinyShip1 2-1.png (2) 1_0: 7387160451242690550
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
