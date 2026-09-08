@@ -1,4 +1,5 @@
 using Galagedon.DataStructures.CoreStructures;
+using System.Collections.Generic;
 using System;
 
 namespace Galagedon.Estructuras

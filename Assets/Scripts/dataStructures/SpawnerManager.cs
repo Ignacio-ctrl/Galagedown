@@ -1,5 +1,6 @@
 using UnityEngine;
 using Galagedon.Estructuras;
+using System.Xml.Serialization;
 
 public class SpawnerManager : MonoBehaviour
 {
@@ -23,4 +24,6 @@ public class SpawnerManager : MonoBehaviour
         int randomIndex = UnityEngine.Random.Range(0, roomSpawners.Count);
         return roomSpawners[randomIndex]; // Acceso rapidísimo por índice
     }
+
+
 }
