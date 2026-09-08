@@ -15,13 +15,15 @@ public class PlayerInventory : MonoBehaviour
         itemsDelJugador.Add("Láser Básico");
         itemsDelJugador.Add("Escudo");
         itemsDelJugador.Add("Bomba");
-        
-        Debug.Log("Objetos en inventario: " + itemsDelJugador.Count); // Debería decir 3
+
+        // Debería decir 3
+        Debug.Log("Objetos en inventario: " + itemsDelJugador.Count); 
         
         // Probamos usar/eliminar un objeto
         UsarObjeto("Escudo");
-        
-        Debug.Log("Objetos restantes: " + itemsDelJugador.Count); // Debería decir 2
+
+        // Debería decir 2
+        Debug.Log("Objetos restantes: " + itemsDelJugador.Count); 
     }
 
     public void UsarObjeto(string nombreItem)

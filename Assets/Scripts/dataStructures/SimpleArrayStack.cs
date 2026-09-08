@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
@@ -68,7 +68,7 @@ public class SimpleArrayStack<T> : ISimpleStack<T>
         int index = (bottom + Count - 1) % Capacity;
         T item = items[index];
         items[index] = default(T); // Clear the reference
-        
+        Count--;                   // ← esta línea es la que falta
         return item;
     }
 
