@@ -2,7 +2,7 @@ using Galagedon.DataStructures.CoreStructures;
 using System;
 using UnityEngine;
 
-public class ImpleLinkedQueue<T> : ISimpleQueue<T>
+public class SimpleLinkedQueue<T> : ISimpleQueue<T>
 {
     int count = 0;
     LinkedNode<T> first = null;
