@@ -47,6 +47,7 @@ public class EnemySpawnerManager : MonoBehaviour
         for (int i = 0; i < enemyOrder.Length; i++)
         {
             enemyQueue.Enqueue(enemyOrder[i]);
+            Debug.Log($"Enqueued enemy: {enemyOrder[i].name}");
         }
     }
 

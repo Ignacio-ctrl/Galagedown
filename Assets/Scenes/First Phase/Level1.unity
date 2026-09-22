@@ -378,6 +378,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 399686805}
+  - component: {fileID: 399686806}
   m_Layer: 0
   m_Name: Spawnpoint_3
   m_TagString: Untagged
@@ -400,6 +401,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1794587609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &399686806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399686804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97a3738904c0b4d47a46cbe542b2223a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnerManager
+  enemyOrder:
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  spawnPoint: {fileID: 399686805}
+  spawnInterval: 5
+  loop: 1
 --- !u!1001 &402007919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -652,6 +675,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 583731388}
+  - component: {fileID: 583731389}
   m_Layer: 0
   m_Name: Spawnpoint_1
   m_TagString: Untagged
@@ -674,6 +698,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1794587609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &583731389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583731387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97a3738904c0b4d47a46cbe542b2223a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnerManager
+  enemyOrder:
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  spawnPoint: {fileID: 583731388}
+  spawnInterval: 2
+  loop: 1
 --- !u!1001 &615280196
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1805,6 +1852,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1788866275}
+  - component: {fileID: 1788866276}
   m_Layer: 0
   m_Name: Spawnpoint_2
   m_TagString: Untagged
@@ -1827,6 +1875,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1794587609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1788866276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1788866274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97a3738904c0b4d47a46cbe542b2223a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnerManager
+  enemyOrder:
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  spawnPoint: {fileID: 1788866275}
+  spawnInterval: 2
+  loop: 0
 --- !u!1 &1794587607
 GameObject:
   m_ObjectHideFlags: 0
