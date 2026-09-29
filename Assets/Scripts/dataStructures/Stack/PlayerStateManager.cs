@@ -1,55 +1,49 @@
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerStateManager : MonoBehaviour
 {
-    public bool HasSpeedBoost = false;
-    public bool HasShield = false;
-    public bool HasDamageBoost = false;
-
+    private ISimpleSet<PowerUpType> active = new SimpleArraySet<PowerUpType>();
     private RewindManager rewindManager = new RewindManager();
+
+    // Mantienen compatibilidad si otros scripts leen estas variables
+    public bool HasSpeedBoost => active.Contains(PowerUpType.SpeedBoost);
+    public bool HasShield => active.Contains(PowerUpType.Shield);
+    public bool HasDamageBoost => active.Contains(PowerUpType.DamageBoost);
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            ActivatePowerUp(ref HasSpeedBoost, "Speed Boost");
-            Debug.Log("Speed activado");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            ActivatePowerUp(ref HasDamageBoost, "Damage Boost");
-            Debug.Log("Damage activado");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            ActivatePowerUp(ref HasShield, "Shield");
-            Debug.Log("Shield activado");
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            RewindOneStep();
-        }
+        if (Input.GetKeyDown(KeyCode.Alpha1)) ActivatePowerUp(PowerUpType.SpeedBoost);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) ActivatePowerUp(PowerUpType.Shield);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) ActivatePowerUp(PowerUpType.DamageBoost);
+        if (Input.GetKeyDown(KeyCode.R)) RewindOneStep();
     }
 
-    void ActivatePowerUp(ref bool flag, string nombre)
+    void ActivatePowerUp(PowerUpType type)
     {
-        PlayerPowerUpState ultimoEstado = new PlayerPowerUpState(HasSpeedBoost, HasDamageBoost, HasShield);
-        rewindManager.SaveState(ultimoEstado);
+        if (active.Contains(type))
+        {
+            Debug.Log($"{type} ya estaba activo");
+            return;
+        }
 
-        flag = true;
+        rewindManager.SaveState(active); // guardamos ANTES de agregar
+        active.Add(type);
+        Debug.Log($"{type} activado");
     }
 
     void RewindOneStep()
     {
-        PlayerPowerUpState previous = rewindManager.Rewind();
-        if (previous == null)    
+        ISimpleSet<PowerUpType> previous = rewindManager.Rewind();
+        if (previous == null)
         {
-            Debug.Log("No hay estado activado");
+            Debug.Log("No hay estado para volver");
             return;
         }
-        HasSpeedBoost = previous.SpeedBoost;
-        HasShield = previous.Shield;
-        HasDamageBoost = previous.DamageBoost;
+
+        // Lo que estaba activo ahora y NO estaba antes = lo que se apaga
+        foreach (PowerUpType t in active.DifferenceWith(previous).ToArray())
+            Debug.Log($"{t} desactivado por rewind");
+
+        active = previous;
     }
 }

@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class RewindManager
 {
-    private SimpleArrayStack<PlayerPowerUpState> stateHistory = new SimpleArrayStack<PlayerPowerUpState>();
+    private SimpleArrayStack<ISimpleSet<PowerUpType>> stateHistory =
+        new SimpleArrayStack<ISimpleSet<PowerUpType>>();
 
-    public void SaveState(PlayerPowerUpState currentState)
+    public void SaveState(ISimpleSet<PowerUpType> current)
     {
-        stateHistory.Push(currentState);
+        // Guardamos una COPIA, no la referencia
+        stateHistory.Push(new SimpleArraySet<PowerUpType>(current));
     }
 
-    public PlayerPowerUpState Rewind()
+    public ISimpleSet<PowerUpType> Rewind()
     {
-        if (stateHistory.IsEmpty())
-            return null;
-
+        if (stateHistory.IsEmpty()) return null;
         return stateHistory.Pop();
     }
 }
