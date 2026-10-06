@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class Arma2 : AbstractWeapon
+public class Shotgun : AbstractWeapon
 {
     public override void Atack()
     {
-        Debug.Log("Arma 2");
+        Debug.Log("Shotgun");
     }
 
 }

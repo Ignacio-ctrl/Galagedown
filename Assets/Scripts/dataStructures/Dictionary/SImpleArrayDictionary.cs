@@ -66,8 +66,18 @@ public class SImpleArrayDictionary<Tkey, Tvalue> : IsimpleDictionary<Tkey, Tvalu
 
     public bool TryGetValue(Tkey key, out Tvalue value)
     {
-        throw new System.NotImplementedException();
-    }
+        int index = indexOf(key);
+
+        if (index >= 0)
+        {
+            value = internalArray[index].Value;
+            return true;
+        }
+
+        value = default(Tvalue);
+        return false;
+    
+}
 
     public Tvalue[] Values()
     {
