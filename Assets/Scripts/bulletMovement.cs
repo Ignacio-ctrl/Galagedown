@@ -17,4 +17,10 @@ public class bulletMovement : MonoBehaviour
 
         // transform.position += transform.up * Speed * Time.deltaTime;
     }
+
+    public void Configure(float newSpeed, float newDamage)
+    {
+        Speed = newSpeed;
+        damage = newDamage;
+    }
 }

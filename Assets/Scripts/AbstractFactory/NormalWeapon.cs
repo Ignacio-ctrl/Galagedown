@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class NormalWeapon : AbstractWeapon
 {
-    public override void Atack()
+    protected override void Fire()
     {
-        Debug.Log("Disparo normal");
+        Shoot(0f);
     }
 }

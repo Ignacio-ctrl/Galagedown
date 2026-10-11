@@ -12,6 +12,8 @@ public class ShipMovement : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
 
+    private PlayerWeaponController weaponController;
+
     private Camera mainCamera;
     private float minX, maxX, minY, maxY;
     private Vector2 spriteExtents;
@@ -20,8 +22,17 @@ public class ShipMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        weaponController = GetComponent<PlayerWeaponController>();
 
-       
+        if(weaponController != null)
+        {
+            weaponController.Initialize(bulletSpawnPoint, bullet);
+        }
+        else
+        {
+            Debug.LogError("PlayerWeaponController component not found on the GameObject.");
+        }
+
     }
 
     void Update()
@@ -29,7 +40,11 @@ public class ShipMovement : MonoBehaviour
         bool ShotInput = Input.GetButtonDown("Fire1");
         if (ShotInput)
         {
-            Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            if(weaponController != null)
+            {
+                weaponController.CurrentWeapon.Atack();
+            }
+       
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
