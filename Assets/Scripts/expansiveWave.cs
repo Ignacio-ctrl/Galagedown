@@ -9,6 +9,9 @@ public class expansiveWave : MonoBehaviour
 
     public float coolDownTime = 10f;
 
+    public int maxCharges = 3;
+    public int currentCharges = 3;
+
     private bool waveIsActive = false;
     private bool onCoolDown = false;
     private float radioActual = 0f;
@@ -76,5 +79,14 @@ public class expansiveWave : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void AddChargeCapacity(int amount)
+    {
+        if(amount <= 0)
+            return;
+
+        maxCharges += amount;
+        currentCharges += amount;
     }
 }

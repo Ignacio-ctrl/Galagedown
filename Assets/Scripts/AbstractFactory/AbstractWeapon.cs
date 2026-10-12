@@ -6,6 +6,10 @@ public abstract class AbstractWeapon : MonoBehaviour
     [SerializeField]protected int bulletSpeed = 10;
     [SerializeField]protected float damage = 1f;
 
+    private float damageMultiplier = 1f;
+    private float cadenceMultiplier = 1f;
+    private float versionDamageMultiplier = 1f;
+
     private Transform firePoint;
     private GameObject bulletPrefab;
     private float nextFireTime = 0f;
@@ -18,12 +22,22 @@ public abstract class AbstractWeapon : MonoBehaviour
 
     public void Atack()
     {
+        if (Time.timeScale == 0f)
+            return;
+
         if (Time.time < nextFireTime)
             return;
-        if(firePoint == null || bulletPrefab == null)
+
+        if (firePoint == null || bulletPrefab == null)
             return;
+
         Fire();
-        nextFireTime = Time.time + cooldown;
+
+        float effectiveCooldown =
+            Mathf.Max(0.05f, cooldown) /
+            Mathf.Max(0.1f, cadenceMultiplier);
+
+        nextFireTime = Time.time + effectiveCooldown;
 
     }
     protected abstract void Fire();
@@ -40,11 +54,26 @@ public abstract class AbstractWeapon : MonoBehaviour
 
         if (bullet != null)
         {
-            bullet.Configure(bulletSpeed, damage);
+            bullet.Configure(bulletSpeed, damage * damageMultiplier * versionDamageMultiplier);
             
         }
 
 
 
+    }
+    public void SetWeaponVersion(float multiplier)
+    {
+        versionDamageMultiplier = Mathf.Max(1f, multiplier);
+    }
+
+    public void AddDamageBonus(float bonus)
+    {
+        damageMultiplier += bonus;
+    }
+
+    public void AddCadenceBonus(float bonus)
+    {
+        cadenceMultiplier += bonus;
+        
     }
 }

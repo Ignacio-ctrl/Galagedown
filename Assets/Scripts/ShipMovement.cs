@@ -9,6 +9,8 @@ public class ShipMovement : MonoBehaviour
     [SerializeField] private GameObject Panel;
     [SerializeField] private Collider2D mapBoundsCollider;
 
+    private float speedMultiplier = 1f;
+
     Rigidbody2D rb;
     Animator anim;
 
@@ -37,14 +39,12 @@ public class ShipMovement : MonoBehaviour
 
     void Update()
     {
-        bool ShotInput = Input.GetButtonDown("Fire1");
-        if (ShotInput)
+       if(Input.GetButton("Fire1") && weaponController != null)
         {
-            if(weaponController != null)
-            {
-                weaponController.CurrentWeapon.Atack();
-            }
-       
+
+            weaponController.Attack();
+
+
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -61,7 +61,7 @@ public class ShipMovement : MonoBehaviour
 
         Vector2 direccion = new Vector2(horizontalInput, verticalInput);
 
-        rb.MovePosition(rb.position + direccion * Speed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + direccion * Speed * speedMultiplier * Time.fixedDeltaTime);
 
         //Aim w Mouse//
         Vector3 mousePosition = Input.mousePosition;
@@ -79,7 +79,10 @@ public class ShipMovement : MonoBehaviour
             anim.SetBool("IsMoving", false);
         }
     }
-
+    public void AddSpeedBonus(float amount)
+    {
+        speedMultiplier += amount;
+    }
 
 
     public void pause()

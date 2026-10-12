@@ -15,6 +15,7 @@ public class PlayerWeaponController : MonoBehaviour
         new SImpleArrayDictionary<WeaponType, AbstractWeapon>();
 
     private AbstractWeapon currentWeapon;
+    private readonly int[] ownedTiers = {1,0,0,0};
 
     public AbstractWeapon CurrentWeapon => currentWeapon;
 
@@ -53,11 +54,23 @@ public class PlayerWeaponController : MonoBehaviour
 
     public bool EquipWeapon(WeaponType type)
     {
-        if (!weaponCatalog.TryGetValue(type, out AbstractWeapon weapon)
-            || weapon == null)
+        int index = (int)type;
+
+        if (index < 0 || index >= ownedTiers.Length)
+            return false;
+
+        if (ownedTiers[index] == 0)
+        {
+            Debug.Log("Arma no desbloqueada: " + type);
+            return false;
+        }
+
+        if (!weaponCatalog.TryGetValue(
+            type, out AbstractWeapon weapon) || weapon == null)
             return false;
 
         currentWeapon = weapon;
+
         Debug.Log("Arma equipada: " + type);
         return true;
     }
@@ -84,4 +97,52 @@ public class PlayerWeaponController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4))
             EquipWeapon(WeaponType.EscopetaDoble);
     }
+
+    public bool CanRecieveWeapon(WeaponType type, int tier)
+    {
+        int index = (int)type;
+
+        if(index < 0 || index >= ownedTiers.Length)
+            return false;
+
+        if(tier <= ownedTiers[index])
+            return false;
+
+        return weaponCatalog.TryGetValue(type, out AbstractWeapon weapon) && weapon != null;
+
+    }
+
+    public bool ReceiveWeapon(WeaponType type, int tier, float power)
+    {
+       if(!CanRecieveWeapon(type, tier) || power < 1f)
+            return false;
+        
+        if (!weaponCatalog.TryGetValue(type, out AbstractWeapon weapon))
+        return false;
+
+
+        weapon.SetWeaponVersion(power);
+
+        ownedTiers[(int)type] = tier;
+
+        EquipWeapon(type);
+        Debug.Log(
+     "Arma obtenida: " + type +
+     " MK-" + tier +
+     " | Multiplicador x" + power
+        );
+        return true;
+    }
+    public void AddDamageBonus(float amount)
+    {
+        foreach (AbstractWeapon weapon in weaponCatalog.Values())
+            weapon.AddDamageBonus(amount);
+    }
+
+    public void AddCadenceBonus(float amount)
+    {
+        foreach (AbstractWeapon weapon in weaponCatalog.Values())
+            weapon.AddCadenceBonus(amount);
+    }
+
 }
