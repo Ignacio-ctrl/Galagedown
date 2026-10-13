@@ -2,9 +2,10 @@ using UnityEngine;
 
 public abstract class AbstractWeapon : MonoBehaviour
 {
-    [SerializeField]protected float cooldown; 
+     
     [SerializeField]protected int bulletSpeed = 10;
     [SerializeField]protected float damage = 1f;
+    [SerializeField] protected float cooldown = 0.25f;
 
     private float damageMultiplier = 1f;
     private float cadenceMultiplier = 1f;

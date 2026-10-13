@@ -1,92 +1,121 @@
-using System.Collections;
 
+using System.Collections;
 using UnityEngine;
 
 public class expansiveWave : MonoBehaviour
 {
     public float radioMax = 10f;
     public float duracion = 0.5f;
-
     public float coolDownTime = 10f;
 
-    public int maxCharges = 3;
-    public int currentCharges = 3;
+    [SerializeField, Min(1)]
+    private int maxCharges = 3;
 
-    private bool waveIsActive = false;
-    private bool onCoolDown = false;
-    private float radioActual = 0f;
-    private float coolDownTimer = 0f;  
+    private int currentCharges;
+    private float rechargeTimer;
+    private bool waveIsActive;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public int CurrentCharges => currentCharges;
+    public int MaxCharges => maxCharges;
+
+    private void Awake()
     {
-        
+        maxCharges = Mathf.Max(1, maxCharges);
+        currentCharges = maxCharges;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        if (Time.timeScale == 0f)
+            return;
 
-        if (onCoolDown)
+        // Recuperar cargas individualmente
+        if (currentCharges < maxCharges)
         {
-            coolDownTimer -= Time.deltaTime;
-            if (coolDownTimer <= 0f)
+            rechargeTimer += Time.deltaTime;
+
+            float rechargeTime =
+                Mathf.Max(0.05f, coolDownTime);
+
+            if (rechargeTimer >= rechargeTime)
             {
-                onCoolDown = false;
+                currentCharges++;
+                rechargeTimer -= rechargeTime;
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Q) && !waveIsActive && !onCoolDown)
+        else
         {
+            rechargeTimer = 0f;
+        }
+
+        // Utilizar una carga
+        if (Input.GetKeyDown(KeyCode.Q) &&
+            currentCharges > 0 &&
+            !waveIsActive)
+        {
+            currentCharges--;
             StartCoroutine(ExpandWaveFromPlayer());
         }
     }
 
-    IEnumerator ExpandWaveFromPlayer()
+    public void AddChargeCapacity(int amount)
+    {
+        if (amount <= 0)
+            return;
+
+        maxCharges += amount;
+        currentCharges += amount;
+
+        Debug.Log(
+            "Ondas disponibles: " +
+            currentCharges + "/" + maxCharges
+        );
+    }
+
+    private IEnumerator ExpandWaveFromPlayer()
     {
         waveIsActive = true;
-        onCoolDown = true;  
-        coolDownTimer = coolDownTime;
-        radioActual = 0f;
+
         Vector2 playerPos = transform.position;
 
         float timer = 0f;
-        while (timer < duracion)
+        float duration = Mathf.Max(0.01f, duracion);
+
+        while (timer < duration)
         {
             timer += Time.deltaTime;
-            radioActual = Mathf.Lerp(0f, radioMax, timer / duracion);
 
-            // Destruir balas desde la posición del jugador
-            ClearBulletsFromPosition(playerPos, radioActual);
+            float radius = Mathf.Lerp(
+                0f, radioMax, timer / duration
+            );
+
+            ClearBulletsFromPosition(playerPos, radius);
 
             yield return null;
         }
 
         waveIsActive = false;
     }
-    void ClearBulletsFromPosition(Vector2 center, float radius)
-    {
-        GameObject[] allBullets = GameObject.FindGameObjectsWithTag("EnemieBullet");
 
-        foreach (GameObject bullet in allBullets)
+    private void ClearBulletsFromPosition(
+        Vector2 center,
+        float radius)
+    {
+        GameObject[] bullets =
+            GameObject.FindGameObjectsWithTag("EnemieBullet");
+
+        foreach (GameObject bullet in bullets)
         {
             if (bullet != null)
             {
-                float distance = Vector2.Distance(center, bullet.transform.position);
+                float distance = Vector2.Distance(
+                    center,
+                    bullet.transform.position
+                );
+
                 if (distance <= radius)
-                {
                     Destroy(bullet);
-                }
             }
         }
-    }
-
-    public void AddChargeCapacity(int amount)
-    {
-        if(amount <= 0)
-            return;
-
-        maxCharges += amount;
-        currentCharges += amount;
     }
 }
