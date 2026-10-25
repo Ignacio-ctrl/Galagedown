@@ -34,7 +34,7 @@ public class ShopStockTest : MonoBehaviour
 
     private void Awake()
     {
-        catalog = new SimpleArrayList<ShopItem>();
+        catalog = new SimpleArrayList<ShopItem>(10); // Initial capacity
 
         // ARMAS
         Add("normal_2", "Normal MK-II",
@@ -277,7 +277,7 @@ public class ShopStockTest : MonoBehaviour
     private SimpleArrayList<ShopItem> GetAvailableCatalog()
     {
         SimpleArrayList<ShopItem> available =
-            new SimpleArrayList<ShopItem>();
+            new SimpleArrayList<ShopItem>(catalog.Count);
 
         for (int i = 0; i < catalog.Count; i++)
         {

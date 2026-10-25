@@ -13,9 +13,9 @@ namespace Galagedon.Estructuras
 
         public int Count => count;
 
-        public SimpleArrayList()
+        public SimpleArrayList(int initialCapacity)
         {
-            internalArray = new T[DefaultCapacity];
+            internalArray = new T[Math.Max(initialCapacity, 1)];
         }
 
         public T this[int index]
