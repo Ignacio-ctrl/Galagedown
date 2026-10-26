@@ -6,10 +6,11 @@ public class SpawnerManager : MonoBehaviour
 {
     // Usamos el ArrayList para guardar los Transform de los Spawners
     private SimpleArrayList<Transform> roomSpawners;
+    [SerializeField] public int minSpawners = 1;
 
     void Start()
     {
-        roomSpawners = new SimpleArrayList<Transform>();
+        roomSpawners = new SimpleArrayList<Transform>(minSpawners);
 
         // Supongamos que buscamos los hijos de este GameObject que son spawners
         foreach (Transform child in transform)

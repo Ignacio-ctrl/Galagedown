@@ -7,9 +7,11 @@ public static class ShopStockGenerator
 {
   private static readonly int[] rarityWeights = { 55, 28, 13, 4 }; // Common, Rare, Epic, Legendary
     
-  public static SimpleArrayList<ShopItem> Generate(ISimpleList<ShopItem> catalog, int stockSize)
+    [SerializeField] public static int minStockSize = 3;
+
+    public static SimpleArrayList<ShopItem> Generate(ISimpleList<ShopItem> catalog, int stockSize)
   {
-        SimpleArrayList<ShopItem> stock = new SimpleArrayList<ShopItem>();
+        SimpleArrayList<ShopItem> stock = new SimpleArrayList<ShopItem>(minStockSize);
 
         if(catalog == null || stockSize <= 0)
         {

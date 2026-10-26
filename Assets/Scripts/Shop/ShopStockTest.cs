@@ -109,6 +109,8 @@ public class ShopStockTest : MonoBehaviour
     private void Start()
     {
         OpenShop();
+
+        SortStock(SortCriterion.Rarity);
     }
 
 
