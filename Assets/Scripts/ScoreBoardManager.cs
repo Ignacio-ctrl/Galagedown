@@ -7,7 +7,7 @@ using Galagedon.DataStructures.CoreStructures;
 public class ScoreboardManager : MonoBehaviour
 {
     public static ScoreboardManager Instance { get; private set; }
-    private BST<ScoreEntry> scoreboardTree;
+    private AVL<ScoreEntry> scoreboardTree;
 
     [Header("Configuración de UI")]
     [SerializeField] private GameObject panelScoreboard;
@@ -15,15 +15,16 @@ public class ScoreboardManager : MonoBehaviour
 
 private void Start()
     {
-        scoreboardTree = new BST<ScoreEntry>();
-        
+        scoreboardTree = new AVL<ScoreEntry>();
+
         // ejemplop :v
         AddScoreToBoard("PRO", 2500);
         AddScoreToBoard("HACKER xD ", 3200);
         AddScoreToBoard("NOOB", 800);
         int puntajeObtenido = PlayerPrefs.GetInt("PuntajeFinal", 0);
-        string nombrePiloto = "vos";
+        string nombrePiloto = "Yop";
         AddScoreToBoard(nombrePiloto, puntajeObtenido);
+
         MostrarScoreboard();
     }
 

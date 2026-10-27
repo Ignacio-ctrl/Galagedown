@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class AVL<T> : BST<T> where T : IComparable
 {
-    protected override TreeNode<T> InsertRecursive(
-        TreeNode<T> current, T value)
+    protected override TreeNode<T> InsertRecursive(TreeNode<T> current, T value)
     {
         // Version comprimida a una linea
         
@@ -19,8 +18,7 @@ public class AVL<T> : BST<T> where T : IComparable
         return current;
     }
 
-    protected override TreeNode<T> RemoveRecursive(
-        TreeNode<T> current, T value)
+    protected override TreeNode<T> RemoveRecursive(TreeNode<T> current, T value)
     {
         return RebalanceNode(base.RemoveRecursive(current, value));
     }
