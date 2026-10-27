@@ -1,6 +1,7 @@
 using Galagedon.DataStructures.CoreStructures;
 using Galagedon.Estructuras;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BST<T> where T : IComparable
@@ -136,6 +137,13 @@ public class BST<T> where T : IComparable
         return GetNodeHeight(node.Left) - GetNodeHeight(node.Right);
     }
 
+    public List<T> GetDescendingElements()
+    {
+        List<T> result = new List<T>(count);
+        ReverseInOrderDFS(root, result);
+        return result;
+    }
+
     // DFS
     // Todas las funciones DFS pueden ser reemplazadas
     // En vez de devolver void pueden devolver ISimpleList<T> u otros datos
@@ -167,6 +175,20 @@ public class BST<T> where T : IComparable
         InOrderDFS(current.Left);
         Debug.Log(current.Value.ToString());
         InOrderDFS(current.Right);
+    }
+
+    void ReverseInOrderDFS(TreeNode<T> current, List<T> list)
+    {
+        if (current == null) return;
+
+        // primero procesamos primero el subarbol derecho (los mayores)
+        ReverseInOrderDFS(current.Right, list);
+
+        // agregamos ell nodo actual
+        list.Add(current.Value);
+
+        // desp procesamos el subarbol izquierdo (los menores)
+        ReverseInOrderDFS(current.Left, list);
     }
 
     public void PostOrder()

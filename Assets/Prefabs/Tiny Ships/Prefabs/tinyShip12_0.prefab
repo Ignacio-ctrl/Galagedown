@@ -40,6 +40,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3195068415735757654
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -58,6 +59,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,9 +82,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -59435107
   m_SortingLayer: 1
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 2145440094, guid: 8c1f41ea49e262e4785cd51c44db339f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -91,7 +96,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &6517271060929348227
 Animator:
@@ -128,14 +132,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  regroupSpeedBonus: 0.1
+  enemyTag: Enemie
+  joinDistance: 2
+  separationDistance: 4
   detectionDistance: 20
-  stopDistance: 22
-  Player: {fileID: 2066137111344170091, guid: 1767e6d41d8632f4d86b78022e493d68, type: 3}
   bullet: {fileID: 8715827179424569840, guid: 991acf7bfd620454d90accb6d548c1bb, type: 3}
   bulletSpawnPoint: {fileID: 4604669893316460504}
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  Player: {fileID: 2066137111344170091, guid: 1767e6d41d8632f4d86b78022e493d68, type: 3}
+  decisionInterval: 0.2
+  currentAction: 0
+  hasCompany: 0
+  currentSpeed: 0
 --- !u!50 &353833613523042127
 Rigidbody2D:
   serializedVersion: 5

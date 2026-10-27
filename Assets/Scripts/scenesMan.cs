@@ -37,6 +37,7 @@ public class scenesMan : MonoBehaviour
     }
     public void menu()
     {
+        PlayerPrefs.DeleteKey("PuntajeFinal");
         SceneManager.LoadScene("MenuScene");
     }
  
@@ -71,7 +72,7 @@ public class scenesMan : MonoBehaviour
     public void restart()
     {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
-        
+        PlayerPrefs.DeleteKey("PuntajeFinal");
         SceneManager.LoadScene(currentScene);
         Time.timeScale = 1.0f;  
     }
@@ -222,6 +223,7 @@ public class scenesMan : MonoBehaviour
     {
         // Cargar la escena anterior guardada
         int escenaAnterior = PlayerPrefs.GetInt("EscenaAnterior", 0);
+        PlayerPrefs.DeleteKey("PuntajeFinal");
         SceneManager.LoadScene(escenaAnterior);
     }
     public void optciones()

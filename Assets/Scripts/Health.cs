@@ -5,6 +5,7 @@ public class health : MonoBehaviour
 {
     [SerializeField] public float aHealth;
 
+    public int CurrentScore { get; private set; }
     public void TakeDamage(float damage)
     {
         if (aHealth <= 0) return; 
@@ -15,6 +16,7 @@ public class health : MonoBehaviour
         if (aHealth <= 0)
         {
             Destroy(gameObject);
+            PlayerPrefs.SetInt("PuntajeFinal", ScoreManager.Instance.CurrentScore);
             SceneManager.LoadScene("Die"); 
         }
     }
@@ -29,5 +31,16 @@ public class health : MonoBehaviour
 
             TakeDamage(bulletDamage);
         }
+    }
+
+    public void EjecutarGameOver()
+    {
+        // esto es para que se vea la pantalla de game over y no se mueva nada
+        Time.timeScale = 0f;
+
+        // para esta wea pasamos un nombre generico o player
+        // en un juego final esto vendría de un input de texto inicial
+
+        ScoreboardManager.Instance.MostrarScoreboard();
     }
 }

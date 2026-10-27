@@ -8,6 +8,8 @@ public class enemieHealth : MonoBehaviour
     public float checkInterval = 1f;
     private float checkTimer;
 
+    [SerializeField] private int scoreValue = 100;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -32,11 +34,11 @@ public class enemieHealth : MonoBehaviour
             {
                 EnemieHealth -= collision.gameObject.GetComponent<bulletMovement>().damage; 
                 Destroy(collision.gameObject); 
-                Debug.Log("Enemy hit! Remaining health: " + EnemieHealth); 
+                Debug.Log("Vida restante del enemigo: " + EnemieHealth); 
                 if (EnemieHealth <= 0)
                 {
-                    Destroy(gameObject); 
-                    
+                    Destroy(gameObject);
+                    ScoreManager.Instance.AddScore(scoreValue);
                 }
             }
         }
