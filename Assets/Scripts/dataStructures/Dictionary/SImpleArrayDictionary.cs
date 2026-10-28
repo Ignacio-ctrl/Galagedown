@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Galagedon.DataStructures.CoreStructures;
+using Galagedon.Estructuras;
 
-public class SImpleArrayDictionary<Tkey, Tvalue> : IsimpleDictionary<Tkey, Tvalue>
+public class SimpleArrayDictionary<Tkey, Tvalue> : ISimpleDictionary<Tkey, Tvalue>
 {
     KeyValuePair<Tkey, Tvalue>[] internalArray;
 
     int defaultCapacity = 5;
     int count = 0;
-    public SImpleArrayDictionary() => internalArray = new KeyValuePair<Tkey, Tvalue>[defaultCapacity];
+    public SimpleArrayDictionary() => internalArray = new KeyValuePair<Tkey, Tvalue>[defaultCapacity];
     
     public Tvalue this[Tkey key] { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
@@ -17,7 +19,7 @@ public class SImpleArrayDictionary<Tkey, Tvalue> : IsimpleDictionary<Tkey, Tvalu
 
     public bool IsEmpty => count == 0;
 
-    public void add(Tkey key, Tvalue value)
+    public void Add(Tkey key, Tvalue value)
     {
         
         if(ContainsKey(key))
@@ -39,7 +41,7 @@ public class SImpleArrayDictionary<Tkey, Tvalue> : IsimpleDictionary<Tkey, Tvalu
         {
             throw new System.ArgumentNullException("Key cannot be null");
         }
-        return indexOf(key) >= 0;
+        return IndexOf(key) >= 0;
         
     }
 
@@ -54,7 +56,7 @@ public class SImpleArrayDictionary<Tkey, Tvalue> : IsimpleDictionary<Tkey, Tvalu
         return result; //devolvemos el array
     }
 
-    public bool remove(Tkey key)
+    public bool Remove(Tkey key)
     {
         throw new System.NotImplementedException();
     }
@@ -66,7 +68,7 @@ public class SImpleArrayDictionary<Tkey, Tvalue> : IsimpleDictionary<Tkey, Tvalu
 
     public bool TryGetValue(Tkey key, out Tvalue value)
     {
-        int index = indexOf(key);
+        int index = IndexOf(key);
 
         if (index >= 0)
         {
@@ -121,7 +123,7 @@ public class SImpleArrayDictionary<Tkey, Tvalue> : IsimpleDictionary<Tkey, Tvalu
     }
 
     //recorre el set y devuelve el indice del elemento, o -1 si no esta (valor centinela)
-    int indexOf(Tkey key)
+    int IndexOf(Tkey key)
     {
         for (int i = 0; i < count; i++)
         {

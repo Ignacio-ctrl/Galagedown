@@ -10,9 +10,9 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] private AbstractWeapon circular;
     [SerializeField] private AbstractWeapon escopetaDoble;
 
-    private readonly SImpleArrayDictionary<WeaponType, AbstractWeapon>
+    private readonly SimpleArrayDictionary<WeaponType, AbstractWeapon>
         weaponCatalog =
-        new SImpleArrayDictionary<WeaponType, AbstractWeapon>();
+        new SimpleArrayDictionary<WeaponType, AbstractWeapon>();
 
     private AbstractWeapon currentWeapon;
     private readonly int[] ownedTiers = {1,0,0,0};
@@ -41,7 +41,7 @@ public class PlayerWeaponController : MonoBehaviour
         instance.transform.localPosition = Vector3.zero;
         instance.transform.localRotation = Quaternion.identity;
 
-        weaponCatalog.add(type, instance);
+        weaponCatalog.Add(type, instance);
     }
 
     public void Initialize(Transform firePoint, GameObject bulletPrefab)

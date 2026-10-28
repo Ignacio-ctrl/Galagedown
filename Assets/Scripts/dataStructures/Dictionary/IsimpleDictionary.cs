@@ -1,6 +1,8 @@
+using Galagedon.DataStructures.CoreStructures;
+using Galagedon.Estructuras;
 using UnityEngine;
 
-public interface IsimpleDictionary<Tkey, Tvalue>    
+public interface ISimpleDictionary<Tkey, Tvalue>    
 {
 
 
@@ -9,8 +11,8 @@ public interface IsimpleDictionary<Tkey, Tvalue>
 
     public bool IsEmpty { get; }
 
-    public void add(Tkey key, Tvalue value);
-    public bool remove(Tkey key);
+    public void Add(Tkey key, Tvalue value);
+    public bool Remove(Tkey key);
     public bool ContainsKey(Tkey key);
     public bool TryAdd(Tkey key, out Tvalue value);
     public bool TryGetValue(Tkey key, out Tvalue value);
@@ -23,3 +25,4 @@ public interface IsimpleDictionary<Tkey, Tvalue>
 
 
 }
+
