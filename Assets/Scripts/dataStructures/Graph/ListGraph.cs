@@ -41,14 +41,9 @@ public class ListGraph<T> : IGraph<T>
 
     public bool AddVertex(T vertex)
     {
-        if (ContainsVertex(vertex)) return false;
 
-        adjacencyList.Add(
-            vertex,
-            new SimpleArrayList<Edge<T>>(4)
-        );
-
-        return true;
+        int initCant = 4;
+        return adjacencyList.TryAdd(vertex, new SimpleArrayList<Edge<T>>(initCant));
     }
 
     public bool ContainsEdge(T from, T to)
@@ -81,7 +76,18 @@ public class ListGraph<T> : IGraph<T>
 
     public bool RemoveEdge(T from, T to)
     {
-        throw new System.NotImplementedException();
+        // Si no existe el vertice inicial, no hay edge que borrar
+        if (!ContainsVertex(from)) return false;
+
+        // Buscamos el edge de from a to
+        Edge<T> edge = GetEdge(from, to);
+
+        // Si no existe, no hay nada que borrar
+        if (edge == null) return false;
+
+        // Si llegamos hasta aca, existe el edge y lo borramos
+        adjacencyList[from].Remove(edge);
+        return true;
     }
 
     public bool RemoveVertex(T vertex)
@@ -94,12 +100,11 @@ public class ListGraph<T> : IGraph<T>
         for (int i = 0; i < Vertices.Length; i++)
         {
             if (Vertices[i].Equals(vertex)) continue;
-            Edge<T> targetEdge = GetEdge(Vertices[i], vertex);
 
-            // Aca iria RemoveEdge
-            //if (targetEdge != null)
+            //bueca el edge a remover y lo borra si existe
+            RemoveEdge(Vertices[i], vertex);
+
         }
-
         // Ahora que borramos todas las aristas vinculadas, podemos borrar al vertice
         // Remove va a devolver true porque ya chequeamos que existe
         return adjacencyList.Remove(vertex);

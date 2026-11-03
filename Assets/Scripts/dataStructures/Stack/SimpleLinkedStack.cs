@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Galagedon.DataStructures.CoreStructures;
+using Galagedon.Estructuras;
+using UnityEngine.Rendering;
 
 public class SimpleLinkedStack<T> : ISimpleStack<T>
 {
