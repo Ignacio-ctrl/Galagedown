@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class Shotgun : AbstractWeapon
+public class Shotgun : MonoBehaviour, IWeapon
 {
+<<<<<<< Updated upstream
     [SerializeField] private int pallet = 5;
     [SerializeField] private float spreadAngle = 48f;
     protected override void Fire()
@@ -14,6 +15,17 @@ public class Shotgun : AbstractWeapon
             float angle = -spreadAngle / 2f + step * i;
             Shoot(angle);
         }
+=======
+    public string WeaponName => "Shotgun";
+
+    public void Attack()
+    {
+        Debug.Log("¡Disparo ESCOPETA pew pew!");
+>>>>>>> Stashed changes
     }
 
+    public void SetWeaponActive(bool isActive)
+    {
+        gameObject.SetActive(isActive);
+    }
 }
