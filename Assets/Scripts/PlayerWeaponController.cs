@@ -2,6 +2,14 @@
 using UnityEngine;
 using static Weapon;
 
+
+[System.Serializable]
+public struct WeaponPrefabMapping
+{
+    public WeaponType weaponType;
+    public GameObject weaponPrefab;
+}
+
 public class PlayerWeaponController : MonoBehaviour
 {
     [Header("Armas disponibles")]
