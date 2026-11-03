@@ -18,6 +18,10 @@ namespace Galagedon.Estructuras
             internalArray = new T[Math.Max(initialCapacity, 1)];
         }
 
+        public SimpleArrayList()
+        {
+        }
+
         public T this[int index]
         {
             get

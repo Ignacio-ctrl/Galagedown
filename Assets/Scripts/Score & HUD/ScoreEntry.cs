@@ -14,13 +14,13 @@ namespace Galagedon.Estructuras
         }
 
         public int CompareTo(object obj)
-        {
+        {// cualquier objeto instanciado se considera "mayor" que un objeto nulo. Si el arbol intenta compararse con la nada, devuelve 1 (mayor).
             if (obj == null) return 1;
 
             ScoreEntry other = obj as ScoreEntry;
             if (other != null)
             {
-                // comparamos los puntos, si son iguales, desempata el nombre alfabeticamente
+                // comparamos los puntos, si son iguales, desempata el nombre alfabeticamente, devuelve -1 si el nombre del jugador es menor que el otro, devuelve 1 si es mayor, y 0 si son iguales.
                 int result = Points.CompareTo(other.Points);
                 if (result == 0)
                 {
