@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class DobleShotgun : MonoBehaviour, IWeapon
+public class DobleShotgun : AbstractWeapon
 {
-<<<<<<< Updated upstream
     [SerializeField] private int pallletsPerBarrel = 5;
     [SerializeField] private float spreadAngle = 48f;
     [SerializeField] private float barrelOffset = 0.25f;
@@ -18,17 +17,5 @@ public class DobleShotgun : MonoBehaviour, IWeapon
             Shoot(angle, -barrelOffset); // Left barrel
             Shoot(angle, barrelOffset);  // Right barrel
         }
-=======
-    public string WeaponName => "DobleShotgun";
-
-    public void Attack()
-    {
-        Debug.Log("¡Disparo DOBLE ESCOPETA pew pew!");
->>>>>>> Stashed changes
-    }
-
-    public void SetWeaponActive(bool isActive)
-    {
-        gameObject.SetActive(isActive);
     }
 }
