@@ -23,5 +23,21 @@ public class Edge<T>
 
         return true;
     }
+
+
+
+
+    //no se que seria esto ayuda
+    public override int GetHashCode()
+    {
+        int hash = 17;
+
+        if (to != null)
+            hash = hash * 31 + to.GetHashCode();
+
+        hash = hash * 31 + weight;
+
+        return hash;
+    }
 }
 

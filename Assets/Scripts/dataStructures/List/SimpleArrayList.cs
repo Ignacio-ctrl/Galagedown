@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using Galagedon.DataStructures.CoreStructures;
+using Galagedon.Estructuras;
+using UnityEngine.Rendering;
 
-namespace Galagedon.Estructuras
-{
-    public class SimpleArrayList<T> : ISimpleList<T>
+
+public class SimpleArrayList<T> : ISimpleList<T>
     {
         private const int DefaultCapacity = 4;
 
@@ -183,4 +184,3 @@ namespace Galagedon.Estructuras
             internalArray = newArray;
         }
     }
-}

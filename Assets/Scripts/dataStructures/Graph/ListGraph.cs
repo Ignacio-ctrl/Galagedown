@@ -42,8 +42,12 @@ public class ListGraph<T> : IGraph<T>
     public bool AddVertex(T vertex)
     {
 
-        int initCant = 4;
-        return adjacencyList.TryAdd(vertex, new SimpleArrayList<Edge<T>>(initCant));
+        if (ContainsVertex(vertex))
+            return false;
+
+        adjacencyList.Add(vertex, new SimpleArrayList<Edge<T>>(4));
+
+        return true;
     }
 
     public bool ContainsEdge(T from, T to)

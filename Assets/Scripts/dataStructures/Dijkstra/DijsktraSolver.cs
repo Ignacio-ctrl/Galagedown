@@ -29,10 +29,10 @@ public class DijsktraSolver<T>: IPathfindingSolver<T>
 
         result[origin].weight = 0; //el peso del origen a sí mismo es 0
 
-        univisited.Enqueue(origin, result[origin].weight); //agregamos el origen a la cola de prioridad con peso 0
+        unvisited.Enqueue(origin, result[origin].weight); //agregamos el origen a la cola de prioridad con peso 0
 
         
-        while (!unvisited.IsEmpty) 
+        while (!unvisited.IsEmpty()) 
         {
             //Sacamos el primer nodo de la queue
             GraphNode<T> current = unvisited.Dequeue();
@@ -89,10 +89,10 @@ public class DijsktraSolver<T>: IPathfindingSolver<T>
 
         table[origin].weight = 0; //el peso del origen a sí mismo es 0
 
-        univisited.Enqueue(origin, table[origin].weight); //agregamos el origen a la cola de prioridad con peso 0
+        unvisited.Enqueue(origin, table[origin].weight); //agregamos el origen a la cola de prioridad con peso 0
 
 
-        while (!unvisited.IsEmpty)
+        while (!unvisited.IsEmpty())
         {
             //Sacamos el primer nodo de la queue
             GraphNode<T> current = unvisited.Dequeue();
@@ -119,6 +119,9 @@ public class DijsktraSolver<T>: IPathfindingSolver<T>
                 // actualizamos ese costo con el que calculamos 
                 if (totalWeight < table[neighbors[i].to].weight)
                     table[neighbors[i].to].weight = totalWeight;
+                //agregamos vecino a la queue si no lo visitamos
+                if (!visited.Contains(neighbors[i].to))
+                    unvisited.Enqueue(neighbors[i].to, totalWeight);
 
 
             }
@@ -131,7 +134,7 @@ public class DijsktraSolver<T>: IPathfindingSolver<T>
         return GeneratePath(destination, table);
 
     }
-        ISimpleStack<GraphNode<T>> GeneratePath(GraphNode<T> destination, ISimpleDictionary<GraphNode<T>, Edge<GraphNode<T>>> table)
+        ISimpleList<GraphNode<T>> GeneratePath(GraphNode<T> destination, ISimpleDictionary<GraphNode<T>, Edge<GraphNode<T>>> table)
         {
 
             //creamos la lista de atras para adelante, ya que vamos a recorrer la tabla desde el destino hasta el origen
@@ -154,7 +157,7 @@ public class DijsktraSolver<T>: IPathfindingSolver<T>
 
 
             //invertimos la lista para que quede del origen al destino
-            while(!reversePath.IsEmpty)
+            while(!reversePath.IsEmpty())
             {
                 path.Add(reversePath.Pop());
             }
