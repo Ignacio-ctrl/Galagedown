@@ -481,11 +481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3195068415735757654, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3195068415735757654, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 245052131
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7938989955571160725, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
       propertyPath: Player
@@ -1296,11 +1292,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3195068415735757654, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3195068415735757654, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 245052131
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7938989955571160725, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
       propertyPath: Player
@@ -1522,11 +1514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3195068415735757654, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3195068415735757654, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 245052131
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7938989955571160725, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
       propertyPath: Player
@@ -3124,11 +3112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3195068415735757654, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3195068415735757654, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 245052131
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7938989955571160725, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
       propertyPath: Player

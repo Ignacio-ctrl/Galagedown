@@ -6,24 +6,14 @@ public class enemieMovement : MonoBehaviour
     private enum EnemyAction
     {
         Wait,
-        Regroup,
-        ChasePlayer
+        ChasePlayer // Saque el estado "Regroup"
     }
 
     [Header("Movimiento")]
     [SerializeField] private float speed = 3f;
 
-    // Aumento fijo: 3 pasa a 3.10.
-    [SerializeField] private float regroupSpeedBonus = 0.10f;
-
-    [Header("Companeros")]
-    [SerializeField] private string enemyTag = "Enemie";
-
-    // Distancia necesaria para considerar que llego al grupo.
-    [SerializeField] private float joinDistance = 2f;
-
-    // Debe ser mayor que joinDistance.
-    [SerializeField] private float separationDistance = 4f;
+    // Asegurate de que sea menor que detectionDistance para que dispare
+    [SerializeField] private float stoppingDistance = 5f;
 
     [Header("Disparo")]
     [SerializeField] private float detectionDistance = 8f;
@@ -38,11 +28,9 @@ public class enemieMovement : MonoBehaviour
 
     [Header("Estado actual - observar en Play")]
     [SerializeField] private EnemyAction currentAction;
-    [SerializeField] private bool hasCompany;
     [SerializeField] private float currentSpeed;
 
     private Rigidbody2D rb;
-    private Transform nearestAlly;
     private float decisionTimer;
 
     private readonly IPriorityQueue<EnemyAction> decisions =
@@ -52,7 +40,8 @@ public class enemieMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        if (Player == null)
+        // Validamos que el Player asignado sea el de la escena actual, no un Prefab (que suele estar en 0,0,0)
+        if (Player == null || !Player.scene.IsValid())
         {
             Player = GameObject.FindWithTag("Player");
         }
@@ -73,111 +62,37 @@ public class enemieMovement : MonoBehaviour
         }
     }
 
+    private void UpdatePlayerReference()
+    {
+        if (Player == null || !Player.activeInHierarchy)
+        {
+            Player = GameObject.FindWithTag("Player");
+        }
+    }
+
     private void EvaluateSituation()
     {
-        FindNearestAlly();
-        UpdateCompany();
+        UpdatePlayerReference();
 
         decisions.Clear();
 
         decisions.Enqueue(EnemyAction.Wait, 0);
 
+        // Como el jugador muere de forma definitiva (no revive), si Player != null, va directo a atacarlo
         if (Player != null)
         {
             decisions.Enqueue(EnemyAction.ChasePlayer, 50);
         }
 
-        // Reagruparse tiene prioridad sobre perseguir.
-        if (nearestAlly != null && !hasCompany)
-        {
-            decisions.Enqueue(EnemyAction.Regroup, 100);
-        }
-
         currentAction = decisions.Dequeue();
 
-        currentSpeed = speed;
-
-        if (currentAction == EnemyAction.Regroup)
-        {
-            currentSpeed += regroupSpeedBonus;
-        }
-    }
-
-    private void FindNearestAlly()
-    {
-        nearestAlly = null;
-
-        float nearestSquaredDistance = float.PositiveInfinity;
-
-        GameObject[] enemies =
-            GameObject.FindGameObjectsWithTag(enemyTag);
-
-        foreach (GameObject enemy in enemies)
-        {
-            if (enemy == gameObject)
-            {
-                continue;
-            }
-
-            Vector2 difference =
-                (Vector2)enemy.transform.position - rb.position;
-
-            float squaredDistance = difference.sqrMagnitude;
-
-            if (squaredDistance < nearestSquaredDistance)
-            {
-                nearestSquaredDistance = squaredDistance;
-                nearestAlly = enemy.transform;
-            }
-        }
-    }
-
-    private void UpdateCompany()
-    {
-        if (nearestAlly == null)
-        {
-            hasCompany = false;
-            return;
-        }
-
-        float distance = Vector2.Distance(
-            rb.position,
-            nearestAlly.position);
-
-        if (!hasCompany && distance <= joinDistance)
-        {
-            hasCompany = true;
-        }
-        else if (hasCompany && distance > separationDistance)
-        {
-            hasCompany = false;
-        }
+        currentSpeed = speed; // Ya no hay bonus de velocidad
     }
 
     private void FixedUpdate()
     {
-        // Revisa la llegada en cada paso de fisica.
-        // Asi recupera la velocidad normal sin esperar
-        // hasta la proxima evaluacion.
-        if (currentAction == EnemyAction.Regroup)
-        {
-            if (nearestAlly == null ||
-                Vector2.Distance(rb.position, nearestAlly.position)
-                <= joinDistance)
-            {
-                EvaluateSituation();
-            }
-        }
-
         switch (currentAction)
         {
-            case EnemyAction.Regroup:
-                if (nearestAlly != null)
-                {
-                    MoveTowards(nearestAlly.position);
-                }
-                break;
-
             case EnemyAction.ChasePlayer:
                 if (Player != null)
                 {
@@ -193,21 +108,26 @@ public class enemieMovement : MonoBehaviour
     private void MoveTowards(Vector2 target)
     {
         Vector2 direction = target - rb.position;
+        float distance = direction.magnitude;
 
-        if (direction.sqrMagnitude < 0.0001f)
+        if (distance < 0.0001f)
         {
             return;
         }
 
-        // Sigue avanzando hacia el objetivo.
-        // No se detiene a la antigua stopDistance.
-        Vector2 nextPosition = Vector2.MoveTowards(
-            rb.position,
-            target,
-            currentSpeed * Time.fixedDeltaTime);
+        // Solo avanza hacia el objetivo si está más lejos que la stoppingDistance
+        // Si está más cerca, se queda quieto manteniendo la distancia
+        if (distance > stoppingDistance)
+        {
+            Vector2 nextPosition = Vector2.MoveTowards(
+                rb.position,
+                target,
+                currentSpeed * Time.fixedDeltaTime);
 
-        rb.MovePosition(nextPosition);
+            rb.MovePosition(nextPosition);
+        }
 
+        // Aunque no avance, sigue rotando para mirar hacia el jugador
         float angle =
             Mathf.Atan2(direction.y, direction.x)
             * Mathf.Rad2Deg - 90f;
@@ -247,18 +167,7 @@ public class enemieMovement : MonoBehaviour
     private void OnValidate()
     {
         speed = Mathf.Max(0f, speed);
-        regroupSpeedBonus = Mathf.Max(0f, regroupSpeedBonus);
-        joinDistance = Mathf.Max(0.1f, joinDistance);
-
-        separationDistance = Mathf.Max(
-            joinDistance + 0.1f,
-            separationDistance);
-
+        stoppingDistance = Mathf.Max(0.1f, stoppingDistance);
         decisionInterval = Mathf.Max(0.02f, decisionInterval);
     }
 }
-
-
-
-
-
