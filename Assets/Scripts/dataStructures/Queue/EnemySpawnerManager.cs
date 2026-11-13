@@ -77,6 +77,18 @@ public class EnemySpawnerManager : MonoBehaviour
         // volvemos a cargar la cola de enemigos
         LoadQueue();
 
+
+        //agregamos enemigos si es combate pro
+        if(enemyOrder.Length > 0 && enemyOrder[0] != null)
+        {
+            //agregamos enemigos a la cola
+            for (int i = 0; i < enemyOrder.Length; i++)
+            {
+                enemyQueue.Enqueue(enemyOrder[0]);
+                
+            }
+        }
+
         //reiniciamos el temporizador de spawn
         spawnTimer = 0f;
 

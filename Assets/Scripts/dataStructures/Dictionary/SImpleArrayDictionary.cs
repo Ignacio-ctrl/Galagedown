@@ -11,10 +11,34 @@ public class SimpleArrayDictionary<Tkey, Tvalue> : ISimpleDictionary<Tkey, Tvalu
     int defaultCapacity = 5;
     int count = 0;
     public SimpleArrayDictionary() => internalArray = new KeyValuePair<Tkey, Tvalue>[defaultCapacity];
-    
-    public Tvalue this[Tkey key] { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
-  
+
+    public Tvalue this[Tkey key]
+    {
+        get
+        {
+            int index = IndexOf(key);
+
+            if (index == -1)
+                throw new System.Exception("No existe la clave");
+
+            return internalArray[index].Value;
+        }
+
+        set
+        {
+            int index = IndexOf(key);
+
+            if (index == -1)
+                throw new System.Exception("No existe la clave");
+
+            internalArray[index] =
+                new KeyValuePair<Tkey, Tvalue>(key, value);
+        }
+    }
+
+
+
     public int Count => count;
 
     public bool IsEmpty => count == 0;
