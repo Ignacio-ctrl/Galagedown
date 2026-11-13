@@ -12,8 +12,17 @@ public class EnemySpawnerManager : MonoBehaviour
     private ISimpleQueue<GameObject> enemyQueue = new SimpleLinkedQueue<GameObject>();
     private float spawnTimer;
 
-    private void Start()
+    //verificar si ya salieron los enemigos del spawner.
+    public bool FinishedSpawning
     {
+        get { return enemyQueue.IsEmpty && !loop; }
+    }
+
+
+       
+
+    private void Start()
+    { 
         LoadQueue();
     }
 
@@ -62,5 +71,14 @@ public class EnemySpawnerManager : MonoBehaviour
             return;
 
         Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+    }
+
+    public void RestarSpawner() { 
+        // volvemos a cargar la cola de enemigos
+        LoadQueue();
+
+        //reiniciamos el temporizador de spawn
+        spawnTimer = 0f;
+
     }
 }

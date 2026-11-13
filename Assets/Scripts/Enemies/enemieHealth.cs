@@ -23,7 +23,7 @@ public class enemieHealth : MonoBehaviour
         if (checkTimer >= checkInterval)
         {
             checkTimer = 0f;
-            CheckForEnemies();
+            //CheckForEnemies();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
