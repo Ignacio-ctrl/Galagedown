@@ -4,12 +4,14 @@ using UnityEngine;
 public class EnemySpawnerManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemyOrder;
+    [SerializeField] private GameObject fanEnemyPrefab;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float spawnInterval = 2f;
     [SerializeField] private bool loop = false;
 
     private float speedMultiplier = 1f;
     private float cadenceMultiplier = 1f;
+    private bool roundControlled = false;
 
 
     private ISimpleQueue<GameObject> enemyQueue =
@@ -25,7 +27,11 @@ public class EnemySpawnerManager : MonoBehaviour
 
     private void Start()
     {
-        LoadQueue();
+        if (!roundControlled)
+        {
+            LoadQueue();
+        }
+        
     }
 
     private void Update()
@@ -82,8 +88,10 @@ public class EnemySpawnerManager : MonoBehaviour
 
     }
 
-    public void RestarSpawner(int extraEnemies = 0, float newSpeedMultiplier = 1f, float newCadenceMultiplier = 1f)
+    public void RestarSpawner(int extraEnemies = 0, float newSpeedMultiplier = 1f, float newCadenceMultiplier = 1f, int fanEnemies = 0)
     {
+
+        roundControlled = true;
         //guarda nueva dificultad depende de la ronda
         speedMultiplier = newSpeedMultiplier;
         cadenceMultiplier = newCadenceMultiplier;
@@ -91,6 +99,15 @@ public class EnemySpawnerManager : MonoBehaviour
 
         // Cargamos la cola normal
         LoadQueue();
+
+        //agrega enemigos escopeta
+        if(fanEnemyPrefab != null)
+        {
+            for(int i = 0; i< fanEnemies; i++)
+            {
+                enemyQueue.Enqueue(fanEnemyPrefab);
+            }
+        }
 
         // Si es combate elite agregamos enemigos extra
         if (enemyOrder.Length > 0 && enemyOrder[0] != null)
@@ -102,6 +119,14 @@ public class EnemySpawnerManager : MonoBehaviour
         }
 
         // Reiniciamos el tiempo de spawn
+        spawnTimer = 0f;
+    }
+
+    public void StopSpawning()
+    {
+        //cuando hay boss no genera enemigos normales
+        roundControlled = true;
+        enemyQueue.Clear();
         spawnTimer = 0f;
     }
 }

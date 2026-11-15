@@ -170,6 +170,18 @@ public class FanEnemy : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, stopDistance);
     }
+
+    public void ConfigureDifficulty(float speedMultiplier, float cadenceMultiplier)
+    {
+        //aumenta velo enemigo
+        speed *= speedMultiplier;
+
+        //suma cadencia
+        fireRate = fireRate / cadenceMultiplier;
+
+        //limitar
+        fireRate = Mathf.Max(0.6f, fireRate);
+    }
 }
 
 public class BulletMover : MonoBehaviour

@@ -16,11 +16,15 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private Button button1;
     [SerializeField] private Button button2;
     [SerializeField] private Button button3;
+    [SerializeField] private GameObject[] bossPrefabs;
+    [SerializeField] private Transform bossSpawnpoint;
 
     [SerializeField] private ShopStockTest shop;
 
     [SerializeField] private string enemyTag = "Enemie";
 
+    private GameObject activeBoss;
+    private bool isBossRound = false;
 
     private int currentRound = 1;
     private bool roundInProgress = false;
@@ -75,38 +79,108 @@ public class RoundManager : MonoBehaviour
         CheckRound();   
     }
 
+
     void StartRound()
     {
+        // Cada 6 rondas aparece un Boss
+        isBossRound = currentRound % 6 == 0;
+        activeBoss = null;
 
-        //agregar enem cada cierta cant de rondas
-        int progressiveEnemies = Mathf.Min(4, (currentRound - 1) / 2);
-        int totalEnemies = progressiveEnemies + extraEnemies;
+        if (isBossRound)
+        {
+            // Elegimos el Boss que corresponde
+            int bossIndex = currentRound / 6 - 1;
 
-        //mas cadencia y velocidad por ronda
-        float speedMultiplier = Mathf.Min(1.6f, 1f + (currentRound - 1) * 0.06f);
-        float cadenceMultiplier = Mathf.Min(2f, 1f + (currentRound - 1) * 0.08f);
-        
-        //mejora en elite
-        if(currentSector == "Elite")
+            if (bossPrefabs != null && bossPrefabs.Length > 0 && bossSpawnpoint != null)
+            {
+                bossIndex = bossIndex % bossPrefabs.Length;
+
+                if (bossPrefabs[bossIndex] != null)
+                {
+                    // Detenemos los spawners normales
+                    for (int i = 0; i < spawners.Length; i++)
+                    {
+                        spawners[i].StopSpawning();
+                    }
+
+                    activeBoss = Instantiate(bossPrefabs[bossIndex], bossSpawnpoint.position, bossSpawnpoint.rotation);
+
+                    roundInProgress = true;
+
+                    
+                    return;
+                }
+            }
+
+            // Si falta configurar un Boss, hacemos ronda normal
+           
+            isBossRound = false;
+        }
+
+        // Agregamos enemigos segun el numero de ronda
+        int progressiveEnemies =
+            Mathf.Min(4, (currentRound - 1) / 2);
+
+        int totalEnemies =
+            progressiveEnemies + extraEnemies;
+
+        // Progresion de velocidad y cadencia
+        float speedMultiplier =
+            Mathf.Min(1.6f, 1f + (currentRound - 1) * 0.06f);
+
+        float cadenceMultiplier =
+            Mathf.Min(2f, 1f + (currentRound - 1) * 0.08f);
+
+        // Los elites son mas rapidos
+        if (currentSector == "Elite")
         {
             speedMultiplier += 0.1f;
             cadenceMultiplier += 0.2f;
         }
 
-        //agrega enemigos en los spawners
-        for(int i = 0; i < spawners.Length; i++)
+        // Desde la ronda 4 aparece el enemigo de abanico
+        int fanEnemies = 0;
+
+        if (currentRound >= 4)
+            fanEnemies = 1;
+
+        if (currentRound >= 8)
+            fanEnemies = 2;
+
+        // Cargamos la ronda en los spawners
+        for (int i = 0; i < spawners.Length; i++)
         {
+            // Por ahora el enemigo nuevo sale del primer spawner
+            int fanCount = 0;
+
+            if (i == 0)
+                fanCount = fanEnemies;
+
             spawners[i].RestarSpawner(
                 totalEnemies,
                 speedMultiplier,
-                cadenceMultiplier);
+                cadenceMultiplier,
+                fanCount);
         }
 
         roundInProgress = true;
+
+        
     }
+
 
     void CheckRound()
     {
+
+        //si es boss se espera a que este muera
+        if (isBossRound)
+        {
+            if(activeBoss == null)
+            {
+                FinishRound();
+            }
+            return;
+        }
         //espera que los spawner terminen
         for(int i = 0; i < spawners.Length; i++)
         {
@@ -125,46 +199,62 @@ public class RoundManager : MonoBehaviour
         }
     }
 
-    void FinishRound() { 
-    
+
+    void FinishRound()
+    {
         roundInProgress = false;
 
         string message = "Ronda " + currentRound + " completa";
 
+        // Recompensa por derrotar al Boss
+        if (isBossRound)
+        {
+            message += "\nBOSS DERROTADO";
 
-        //si se gana en elite tiene mejora
-        if (currentSector == "Elite")
+            ShopItem reward = null;
+
+            if (shop != null)
+                reward = shop.GiveEliteReward();
+
+            if (reward != null)
+            {
+                message += "\nRecompensa: " + reward.displayName;
+            }
+
+            if (ScoreManager.Instance != null)
+            {
+                ScoreManager.Instance.AddScore(800);
+                message += "\n+800 puntos";
+            }
+        }
+        // Recompensa por completar un elite
+        else if (currentSector == "Elite")
         {
             ShopItem reward = null;
 
-            if(shop != null)
-            {
+            if (shop != null)
                 reward = shop.GiveEliteReward();
-            }
-            
-            if(reward != null)
+
+            if (reward != null)
             {
-                message += "\nRecompensa elite: " + reward.displayName + " (" + reward.rarity + ")";
+                message += "\nRecompensa elite: " +
+                    reward.displayName;
             }
             else
             {
-                message += "\nNo quedan recompensas elite disponibles";
+                message += "\nNo quedan recompensas elite";
             }
 
-            //sumamos puntos de mas por sector elite
             if (ScoreManager.Instance != null)
             {
                 ScoreManager.Instance.AddScore(300);
                 message += "\n+300 puntos";
             }
-
         }
 
-      
-
         ShowOptions(message);
-
     }
+
 
     void ShowOptions(string message = "")
     {

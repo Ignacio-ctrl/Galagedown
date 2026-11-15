@@ -28,6 +28,16 @@ public static class EnemyFactory
                 cadenceMultiplier);
         }
 
+        //enemigo nuevo
+        FanEnemy fan = enemy.GetComponent<FanEnemy>();
+
+        if (fan != null)
+        {
+            fan.ConfigureDifficulty(
+                speedMultiplier,
+                cadenceMultiplier);
+        }
+
         return enemy;
     }
 }

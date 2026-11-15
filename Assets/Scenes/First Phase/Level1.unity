@@ -847,6 +847,7 @@ MonoBehaviour:
   - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
   - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
   - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  fanEnemyPrefab: {fileID: 0}
   spawnPoint: {fileID: 399686805}
   spawnInterval: 5
   loop: 0
@@ -1025,6 +1026,10 @@ MonoBehaviour:
   button1: {fileID: 661681827}
   button2: {fileID: 1729486050}
   button3: {fileID: 1242046818}
+  bossPrefabs:
+  - {fileID: 388088347521277833, guid: 4b2440254a72aa44298d64b62f88f96b, type: 3}
+  - {fileID: 762209814863994000, guid: f7db1ca93afe219479a997ea021d2ef2, type: 3}
+  bossSpawnpoint: {fileID: 399686805}
   shop: {fileID: 378322854}
   enemyTag: Enemie
 --- !u!4 &414468905
@@ -1264,6 +1269,7 @@ MonoBehaviour:
   - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
   - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
   - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  fanEnemyPrefab: {fileID: 1168944146301631855, guid: ac6a0b0b028af1e46bd449864229efd8, type: 3}
   spawnPoint: {fileID: 583731388}
   spawnInterval: 2
   loop: 0
@@ -4247,6 +4253,7 @@ MonoBehaviour:
   - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
   - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
   - {fileID: 1058861493893247876, guid: b708897e437b9ac42be9b74b58674d49, type: 3}
+  fanEnemyPrefab: {fileID: 0}
   spawnPoint: {fileID: 1788866275}
   spawnInterval: 2
   loop: 0
