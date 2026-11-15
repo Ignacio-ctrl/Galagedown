@@ -4,6 +4,8 @@ using UnityEngine.VFX;
 using UnityEngine.UI;
 using Unity.Collections;
 using Galagedon.DataStructures.CoreStructures;
+using UnityEditor.Search;
+using Mono.Cecil;
 
 public class RoundManager : MonoBehaviour
 {
@@ -13,6 +15,9 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private TMP_Text roundText;
     [SerializeField] private Button button1;
     [SerializeField] private Button button2;
+    [SerializeField] private Button button3;
+
+    [SerializeField] private ShopStockTest shop;
 
     [SerializeField] private string enemyTag = "Enemie";
 
@@ -20,7 +25,7 @@ public class RoundManager : MonoBehaviour
     private int currentRound = 1;
     private bool roundInProgress = false;
 
-    //grago de sectores de la ronda
+    //grafo de sectores de la ronda
     private ListGraph<string> graph = new ListGraph<string>();
 
     private string currentSector = "Inicio";
@@ -37,15 +42,24 @@ public class RoundManager : MonoBehaviour
         roundPanel.SetActive(false);
 
         // Creamos las conexiones del grafo
+        //Caminos desde el inicio
         graph.AddEdge("Inicio", "Combate", 0);
         graph.AddEdge("Inicio", "Elite", 2);
+        graph.AddEdge("Inicio", "Tienda", 0);
 
+        //Caminos desde combate normal
         graph.AddEdge("Combate", "Combate", 0);
         graph.AddEdge("Combate", "Elite", 2);
+        graph.AddEdge("Combate", "Tienda", 0);
 
+        //caminos desde combate elite
         graph.AddEdge("Elite", "Combate", 0);
         graph.AddEdge("Elite", "Elite", 2);
+        graph.AddEdge("Elite", "Tienda", 0);
 
+        //caminos desde la tienda
+        graph.AddEdge("Tienda", "Combate", 0);
+        graph.AddEdge("Tienda", "Elite", 2);
 
         StartRound();
         
@@ -66,7 +80,7 @@ public class RoundManager : MonoBehaviour
         //cargamos los enemigos de la ronda actual
         for(int i = 0; i < spawners.Length; i++)
         {
-            spawners[i].RestarSpawner();
+            spawners[i].RestarSpawner(extraEnemies);
         }
 
         roundInProgress = true;
@@ -98,26 +112,81 @@ public class RoundManager : MonoBehaviour
     
         roundInProgress = false;
 
-        //buscamos caminos del sector actual
+        string message = "Ronda " + currentRound + " completa";
+
+
+        //si se gana en elite tiene mejora
+        if (currentSector == "Elite")
+        {
+            ShopItem reward = null;
+
+            if(shop != null)
+            {
+                reward = shop.GiveEliteReward();
+            }
+            
+            if(reward != null)
+            {
+                message += "\nRecompensa elite: " + reward.displayName + " (" + reward.rarity + ")";
+            }
+            else
+            {
+                message += "\nNo quedan recompensas elite disponibles";
+            }
+        }
+
+       //sumamos puntos de mas por sector elite
+       if(ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.AddScore(300);
+            message += "\n+300 puntos";
+        }
+
+        ShowOptions(message);
+
+    }
+
+    void ShowOptions(string message = "")
+    {
+        //tenemos los vecinos del sector actual
         options = graph.GetNeighbors(currentSector);
 
-        if (options == null || options.Count < 2)
+        if(options == null || options.Count == 0)
         {
-            Debug.LogError("No hay suficientes opciones de camino para la ronda actual.");
             return;
         }
 
         roundPanel.SetActive(true);
 
+        if(message == "")
+        {
+            roundText.text = "Sellecciona siguiente sector";
+        }
+        else
+        {
+            roundText.text = message + "\nElegi el siguiente sector";
+        }
 
-        roundText.text = $"Ronda {currentRound} finalizada. Elige el siguiente camino:";
+        //botones que tienen los dif caminos
+        Button[] buttons = { button1, button2, button3 };
 
-        //mostramos opciones en los botones
-        button1.GetComponentInChildren<TMP_Text>().text = options[0].to;    
-        button2.GetComponentInChildren<TMP_Text>().text = options[1].to;
+        for(int i = 0; i < buttons.Length; i++)
+        {
+            bool aviable = i < options.Count;
+
+            buttons[i].gameObject.SetActive(aviable);
+
+            if (aviable)
+            {
+                TMP_Text text = buttons[i].GetComponentInChildren<TMP_Text>();
+
+                if(text != null)
+                {
+                    text.text = options[i].to;
+                }
+            }
+        }
         Time.timeScale = 0f;
-
-
     }
     public void ChooseFirst()
     {
@@ -129,6 +198,11 @@ public class RoundManager : MonoBehaviour
         ChooseSector(1);
     }
 
+    public void ChooseThird()
+    {
+        ChooseSector(2);
+    }
+
     void ChooseSector(int index)
     {
         if (roundInProgress || options == null)
@@ -137,20 +211,49 @@ public class RoundManager : MonoBehaviour
         if (index < 0 || index >= options.Count)
             return;
 
+        string nextSector = options[index].to;
+
+        //Si no esta la tienda no se avanza
+        if(nextSector == "Tienda" && shop == null)
+        {
+            return;
+        }
+
         // Guardamos el sector seleccionado
         currentSector = options[index].to;
 
         // El peso indica cuantos enemigos extra agregar
         extraEnemies = options[index].weight;
 
+        options = null;
+        roundPanel.SetActive(false);
+
         Debug.Log("Sector elegido: " + currentSector);
 
+        //si se elige tienda no inicia el combate
+        if(currentSector == "Tienda")
+        {
+            shop.OpenShop();
+            return;
+        }
+
+        //si no es tienda inicia ronda
         currentRound++;
 
-        roundPanel.SetActive(false);
+        
         Time.timeScale = 1f;
 
         StartRound();
     }
+
+   public void ShopFinished()
+   {
+        if(currentSector != "Tienda" || roundInProgress)
+        {
+            return;
+        }
+
+        ShowOptions();
+   }
 
 }

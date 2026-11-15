@@ -1,28 +1,26 @@
+
 using UnityEngine;
 
 public class EnemySpawnerManager : MonoBehaviour
 {
-
     [SerializeField] private GameObject[] enemyOrder;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float spawnInterval = 2f;
-
     [SerializeField] private bool loop = false;
 
-    private ISimpleQueue<GameObject> enemyQueue = new SimpleLinkedQueue<GameObject>();
+    private ISimpleQueue<GameObject> enemyQueue =
+        new SimpleLinkedQueue<GameObject>();
+
     private float spawnTimer;
 
-    //verificar si ya salieron los enemigos del spawner.
+    // Verificamos si ya salieron todos los enemigos
     public bool FinishedSpawning
     {
         get { return enemyQueue.IsEmpty && !loop; }
     }
 
-
-       
-
     private void Start()
-    { 
+    {
         LoadQueue();
     }
 
@@ -56,7 +54,7 @@ public class EnemySpawnerManager : MonoBehaviour
         for (int i = 0; i < enemyOrder.Length; i++)
         {
             enemyQueue.Enqueue(enemyOrder[i]);
-            Debug.Log($"Enqueued enemy: {enemyOrder[i].name}");
+            Debug.Log("Enqueued enemy: " + enemyOrder[i].name);
         }
     }
 
@@ -70,27 +68,28 @@ public class EnemySpawnerManager : MonoBehaviour
         if (enemyPrefab == null)
             return;
 
-        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        Instantiate(
+            enemyPrefab,
+            spawnPoint.position,
+            spawnPoint.rotation
+        );
     }
 
-    public void RestarSpawner() { 
-        // volvemos a cargar la cola de enemigos
+    public void RestarSpawner(int extraEnemies = 0)
+    {
+        // Cargamos la cola normal
         LoadQueue();
 
-
-        //agregamos enemigos si es combate pro
-        if(enemyOrder.Length > 0 && enemyOrder[0] != null)
+        // Si es combate elite agregamos enemigos extra
+        if (enemyOrder.Length > 0 && enemyOrder[0] != null)
         {
-            //agregamos enemigos a la cola
-            for (int i = 0; i < enemyOrder.Length; i++)
+            for (int i = 0; i < extraEnemies; i++)
             {
                 enemyQueue.Enqueue(enemyOrder[0]);
-                
             }
         }
 
-        //reiniciamos el temporizador de spawn
+        // Reiniciamos el tiempo de spawn
         spawnTimer = 0f;
-
     }
 }

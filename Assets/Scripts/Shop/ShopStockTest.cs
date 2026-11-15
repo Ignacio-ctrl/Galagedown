@@ -1,5 +1,7 @@
 
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using Galagedon.Estructuras;
 using System;
 using static Weapon;
@@ -28,6 +30,10 @@ public class ShopStockTest : MonoBehaviour
 
     [SerializeField] private PlayerWeaponController weapons;
     [SerializeField] private PlayerUpgradeManager upgradeManager;
+
+    [SerializeField] private GameObject shopPanel;
+    [SerializeField] private Button[] rewardButton;
+    [SerializeField] private RoundManager roundManager;
 
     public ShopItem SelectedReward { get; private set; }
     public bool ShopOpen => shopOpen;
@@ -108,17 +114,14 @@ public class ShopStockTest : MonoBehaviour
 
     private void Start()
     {
-        OpenShop();
-
-        SortStock(SortCriterion.Rarity);
+        //abre tienda desde el grafo
+        shopPanel.SetActive(false);
     }
 
 
     private void Update()
     {
-        // Nueva tienda de prueba
-        if (Input.GetKeyDown(KeyCode.F9) && !shopOpen)
-            OpenShop();
+       
 
         if (!shopOpen)
             return;
@@ -159,11 +162,10 @@ public class ShopStockTest : MonoBehaviour
         if (shopOpen)
             return;
 
-        SimpleArrayList<ShopItem> available =
-            GetAvailableCatalog();
-
-        currentStock =
-            ShopStockGenerator.Generate(available, stockSize);
+        //buscamos recompensas disponibles
+        SimpleArrayList<ShopItem> available = GetAvailableCatalog();
+        //Se genera la tienda
+        currentStock = ShopStockGenerator.Generate(available, stockSize);
 
         SelectedReward = null;
 
@@ -174,13 +176,21 @@ public class ShopStockTest : MonoBehaviour
             );
 
             shopOpen = false;
+
+            //si no hay mejoras vuelve al juego
+            if(roundManager != null)
+            {
+                roundManager.ShopFinished();
+            }
+
             return;
         }
 
         shopOpen = true;
+        shopPanel.SetActive(true);
 
         Debug.Log("===== NUEVA TIENDA =====");
-        PrintStock();
+        SortStock(SortCriterion.Rarity);
     }
 
 
@@ -194,6 +204,7 @@ public class ShopStockTest : MonoBehaviour
 
         ShopItem item = currentStock[index];
 
+       //intenta dar item
         if (!GrantReward(item))
         {
             Debug.LogWarning(
@@ -210,11 +221,54 @@ public class ShopStockTest : MonoBehaviour
             "RECOMPENSA ELEGIDA: " + item.displayName
         );
 
-        Debug.Log("TIENDA CERRADA");
+        //se cierra la tienda
+        shopPanel.SetActive(false);
+
+        //round manager
+        if(roundManager != null)
+        {
+            roundManager.ShopFinished();
+        }
 
         return true;
     }
+    //recompensa por ronda elite
+    public ShopItem GiveEliteReward()
+    {
+        //busca items que se pueden recibir
+        SimpleArrayList<ShopItem> aviable = GetAvailableCatalog();
 
+        //solo rareza rara o mayot
+        SimpleArrayList<ShopItem> eliteRewards = new SimpleArrayList<ShopItem>(aviable.Count);
+
+        for (int i = 0; i < aviable.Count; i++) 
+        {
+            if (aviable[i].rarity >= ShopRarity.Rare)
+            {
+                eliteRewards.Add(aviable[i]);
+            }
+        }
+
+        if (eliteRewards.Count == 0)
+        {
+            return null;
+        }
+
+        //recompensa aleatoria
+        int randomIndex = UnityEngine.Random.Range(0, eliteRewards.Count);
+
+        ShopItem reward = eliteRewards[randomIndex];
+
+        //entrega premio
+        if (!GrantReward(reward))
+        {
+            return null;
+        }
+
+        SelectedReward = reward;
+
+        return reward;
+    }
 
 
     private bool GrantReward(ShopItem item)
@@ -278,8 +332,7 @@ public class ShopStockTest : MonoBehaviour
 
     private SimpleArrayList<ShopItem> GetAvailableCatalog()
     {
-        SimpleArrayList<ShopItem> available =
-            new SimpleArrayList<ShopItem>(catalog.Count);
+        SimpleArrayList<ShopItem> available = new SimpleArrayList<ShopItem>(catalog.Count);
 
         for (int i = 0; i < catalog.Count; i++)
         {
@@ -292,6 +345,48 @@ public class ShopStockTest : MonoBehaviour
         return available;
     }
 
+    private void UpdateShopButtons()
+    {
+        for (int i = 0; i < rewardButton.Length; i++)
+        {
+            bool aviable = currentStock != null && i < currentStock.Count;
+
+            rewardButton[i].gameObject.SetActive(aviable);
+
+            if (aviable)
+            {
+                ShopItem item = currentStock[i];
+
+                TMP_Text text = rewardButton[i].GetComponentInChildren<TMP_Text>();
+
+                if(text != null)
+                {
+                    text.text = item.displayName + "\n" + item.rarity + " | Nivel " + item.tier;
+                }
+            }
+        }
+    }
+
+    // Metodos para conectar los botones desde Unity
+    public void ChooseItem1()
+    {
+        SelectItem(0);
+    }
+
+    public void ChooseItem2()
+    {
+        SelectItem(1);
+    }
+
+    public void ChooseItem3()
+    {
+        SelectItem(2);
+    }
+
+    public void ChooseItem4()
+    {
+        SelectItem(3);
+    }
 
     private void SortStock(SortCriterion criterion)
     {
@@ -339,6 +434,7 @@ public class ShopStockTest : MonoBehaviour
         );
 
         PrintStock();
+        UpdateShopButtons();
     }
 
 
