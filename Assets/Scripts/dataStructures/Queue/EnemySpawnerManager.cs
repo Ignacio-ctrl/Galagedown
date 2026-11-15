@@ -8,6 +8,10 @@ public class EnemySpawnerManager : MonoBehaviour
     [SerializeField] private float spawnInterval = 2f;
     [SerializeField] private bool loop = false;
 
+    private float speedMultiplier = 1f;
+    private float cadenceMultiplier = 1f;
+
+
     private ISimpleQueue<GameObject> enemyQueue =
         new SimpleLinkedQueue<GameObject>();
 
@@ -68,15 +72,23 @@ public class EnemySpawnerManager : MonoBehaviour
         if (enemyPrefab == null)
             return;
 
-        Instantiate(
+        //usar factory con dificultad de ronda
+        EnemyFactory.CreateEnemy(
             enemyPrefab,
             spawnPoint.position,
-            spawnPoint.rotation
-        );
+            spawnPoint.rotation,
+            speedMultiplier,
+            cadenceMultiplier);
+
     }
 
-    public void RestarSpawner(int extraEnemies = 0)
+    public void RestarSpawner(int extraEnemies = 0, float newSpeedMultiplier = 1f, float newCadenceMultiplier = 1f)
     {
+        //guarda nueva dificultad depende de la ronda
+        speedMultiplier = newSpeedMultiplier;
+        cadenceMultiplier = newCadenceMultiplier;
+
+
         // Cargamos la cola normal
         LoadQueue();
 

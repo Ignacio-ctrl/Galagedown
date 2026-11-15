@@ -77,15 +77,32 @@ public class RoundManager : MonoBehaviour
 
     void StartRound()
     {
-        //cargamos los enemigos de la ronda actual
+
+        //agregar enem cada cierta cant de rondas
+        int progressiveEnemies = Mathf.Min(4, (currentRound - 1) / 2);
+        int totalEnemies = progressiveEnemies + extraEnemies;
+
+        //mas cadencia y velocidad por ronda
+        float speedMultiplier = Mathf.Min(1.6f, 1f + (currentRound - 1) * 0.06f);
+        float cadenceMultiplier = Mathf.Min(2f, 1f + (currentRound - 1) * 0.08f);
+        
+        //mejora en elite
+        if(currentSector == "Elite")
+        {
+            speedMultiplier += 0.1f;
+            cadenceMultiplier += 0.2f;
+        }
+
+        //agrega enemigos en los spawners
         for(int i = 0; i < spawners.Length; i++)
         {
-            spawners[i].RestarSpawner(extraEnemies);
+            spawners[i].RestarSpawner(
+                totalEnemies,
+                speedMultiplier,
+                cadenceMultiplier);
         }
 
         roundInProgress = true;
-
-
     }
 
     void CheckRound()
@@ -133,14 +150,17 @@ public class RoundManager : MonoBehaviour
             {
                 message += "\nNo quedan recompensas elite disponibles";
             }
+
+            //sumamos puntos de mas por sector elite
+            if (ScoreManager.Instance != null)
+            {
+                ScoreManager.Instance.AddScore(300);
+                message += "\n+300 puntos";
+            }
+
         }
 
-       //sumamos puntos de mas por sector elite
-       if(ScoreManager.Instance != null)
-        {
-            ScoreManager.Instance.AddScore(300);
-            message += "\n+300 puntos";
-        }
+      
 
         ShowOptions(message);
 

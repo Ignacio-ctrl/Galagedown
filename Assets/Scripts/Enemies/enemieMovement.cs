@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -11,6 +12,7 @@ public class enemieMovement : MonoBehaviour
 
     [Header("Movimiento")]
     [SerializeField] private float speed = 3f;
+    [SerializeField] private float fireInterval = 3f;
 
     // Asegurate de que sea menor que detectionDistance para que dispare
     [SerializeField] private float stoppingDistance = 5f;
@@ -48,7 +50,7 @@ public class enemieMovement : MonoBehaviour
 
         EvaluateSituation();
 
-        InvokeRepeating(nameof(enemieShot), 3f, 3f);
+        InvokeRepeating(nameof(enemieShot), fireInterval, fireInterval);
     }
 
     private void Update()
@@ -169,5 +171,17 @@ public class enemieMovement : MonoBehaviour
         speed = Mathf.Max(0f, speed);
         stoppingDistance = Mathf.Max(0.1f, stoppingDistance);
         decisionInterval = Mathf.Max(0.02f, decisionInterval);
+    }
+
+    public void ConfigureDifficulty(float speedMultiplier, float cadenceMultiplier)
+    {
+        //aum velociad segun ronda
+        speed *= speedMultiplier;
+
+        //dispara mas rapido
+        fireInterval = fireInterval / cadenceMultiplier;
+
+        //limitacion 
+        fireInterval = Mathf.Max(0.5f, fireInterval);
     }
 }
