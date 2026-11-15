@@ -66,7 +66,7 @@ public class RoundManager : MonoBehaviour
         graph.AddEdge("Tienda", "Elite", 2);
 
         //antes del boss
-        graph.AddEdge("AntesBoss", "Combate", 0);
+        graph.AddEdge("AntesBoss", "Boss", 0);
 
         //despues de boss
         graph.AddEdge("Boss", "Combate", 0);
