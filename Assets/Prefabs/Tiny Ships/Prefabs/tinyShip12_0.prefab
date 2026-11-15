@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 353833613523042127}
   - component: {fileID: 8227297975169882373}
   - component: {fileID: 6584743617226842378}
+  - component: {fileID: 493043311750021003}
   m_Layer: 0
   m_Name: tinyShip12_0
   m_TagString: Enemie
@@ -132,17 +133,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  regroupSpeedBonus: 0.1
-  enemyTag: Enemie
-  joinDistance: 2
-  separationDistance: 4
+  fireInterval: 3
+  stoppingDistance: 5
   detectionDistance: 20
   bullet: {fileID: 8715827179424569840, guid: 991acf7bfd620454d90accb6d548c1bb, type: 3}
   bulletSpawnPoint: {fileID: 4604669893316460504}
   Player: {fileID: 2066137111344170091, guid: 1767e6d41d8632f4d86b78022e493d68, type: 3}
   decisionInterval: 0.2
   currentAction: 0
-  hasCompany: 0
   currentSpeed: 0
 --- !u!50 &353833613523042127
 Rigidbody2D:
@@ -231,6 +229,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemieHealth: 3
   checkInterval: 1
+  scoreValue: 100
+--- !u!114 &493043311750021003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058861493893247876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b4471246fd0f8b4dad5db946e9b1dec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyTypeHolder
+  enemyType: {fileID: 11400000, guid: bb30a340d38ae5c40825bb2522400940, type: 2}
 --- !u!1 &3078815868746666075
 GameObject:
   m_ObjectHideFlags: 0

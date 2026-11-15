@@ -168,7 +168,8 @@ public class RoundManager : MonoBehaviour
                 totalEnemies,
                 speedMultiplier,
                 cadenceMultiplier,
-                fanCount);
+                fanCount,
+                currentRound);
         }
 
         roundInProgress = true;

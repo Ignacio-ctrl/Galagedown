@@ -17,15 +17,29 @@ public static class EnemyFactory
         GameObject enemy =
             Object.Instantiate(prefab, position, rotation);
 
-        // Configuramos su velocidad y cadencia
+        //busca el tipo de enemigo
+        EnemyTypeHolder holder = enemy.GetComponent<EnemyTypeHolder>();
+
+        //dificultad segun ronda
+        float finalSpeed = speedMultiplier;
+        float finalCadence = cadenceMultiplier;
+
+        //aplica estadisticas
+        if(holder != null && holder.data != null)
+        {
+            finalSpeed *= holder.data.speedMultiplier;
+            finalCadence *= holder.data.cadenceMultiplier;
+        }
+
+        // Configuramos su velocidad y cadencia enem normal
         enemieMovement movement =
             enemy.GetComponent<enemieMovement>();
 
         if (movement != null)
         {
             movement.ConfigureDifficulty(
-                speedMultiplier,
-                cadenceMultiplier);
+                finalSpeed,
+                finalCadence);
         }
 
         //enemigo nuevo
@@ -34,8 +48,8 @@ public static class EnemyFactory
         if (fan != null)
         {
             fan.ConfigureDifficulty(
-                speedMultiplier,
-                cadenceMultiplier);
+                finalSpeed,
+                finalCadence);
         }
 
         return enemy;

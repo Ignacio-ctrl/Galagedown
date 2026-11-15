@@ -12,6 +12,7 @@ public class EnemySpawnerManager : MonoBehaviour
     private float speedMultiplier = 1f;
     private float cadenceMultiplier = 1f;
     private bool roundControlled = false;
+    private int activeRound = 1;
 
 
     private ISimpleQueue<GameObject> enemyQueue =
@@ -63,8 +64,28 @@ public class EnemySpawnerManager : MonoBehaviour
 
         for (int i = 0; i < enemyOrder.Length; i++)
         {
-            enemyQueue.Enqueue(enemyOrder[i]);
-            Debug.Log("Enqueued enemy: " + enemyOrder[i].name);
+            GameObject prefab = enemyOrder[i];
+
+            if(prefab == null)
+            {
+                continue;
+            }
+
+            //tipo de enmigo
+            EnemyTypeHolder holder = prefab.GetComponent<EnemyTypeHolder>();
+
+            //revisa en que ronda aparece
+            if(holder != null && holder.data != null)
+            {
+                if(activeRound < holder.data.firstRound)
+                {
+                    continue;
+                }
+            }
+
+
+            enemyQueue.Enqueue(prefab);
+            
         }
     }
 
@@ -88,14 +109,14 @@ public class EnemySpawnerManager : MonoBehaviour
 
     }
 
-    public void RestarSpawner(int extraEnemies = 0, float newSpeedMultiplier = 1f, float newCadenceMultiplier = 1f, int fanEnemies = 0)
+    public void RestarSpawner(int extraEnemies = 0, float newSpeedMultiplier = 1f, float newCadenceMultiplier = 1f, int fanEnemies = 0, int roundNumber = 1)
     {
 
         roundControlled = true;
         //guarda nueva dificultad depende de la ronda
         speedMultiplier = newSpeedMultiplier;
         cadenceMultiplier = newCadenceMultiplier;
-
+        activeRound = roundNumber;
 
         // Cargamos la cola normal
         LoadQueue();
