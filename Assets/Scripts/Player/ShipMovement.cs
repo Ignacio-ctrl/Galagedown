@@ -39,13 +39,7 @@ public class ShipMovement : MonoBehaviour
 
     void Update()
     {
-       if(Input.GetButton("Fire1") && weaponController != null)
-        {
-
-            weaponController.Attack();
-
-
-        }
+      
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             pause();

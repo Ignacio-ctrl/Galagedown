@@ -83,20 +83,7 @@ public class PlayerWeaponController : MonoBehaviour
         currentWeapon.Atack();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            EquipWeapon(WeaponType.Normal);
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-            EquipWeapon(WeaponType.Escopeta);
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-            EquipWeapon(WeaponType.Circular);
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-            EquipWeapon(WeaponType.EscopetaDoble);
-    }
+    
 
     public bool CanRecieveWeapon(WeaponType type, int tier)
     {

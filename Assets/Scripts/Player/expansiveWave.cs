@@ -48,14 +48,8 @@ public class expansiveWave : MonoBehaviour
             rechargeTimer = 0f;
         }
 
-        // Utilizar una carga
-        if (Input.GetKeyDown(KeyCode.Q) &&
-            currentCharges > 0 &&
-            !waveIsActive)
-        {
-            currentCharges--;
-            StartCoroutine(ExpandWaveFromPlayer());
-        }
+       
+      
     }
 
     public void AddChargeCapacity(int amount)
@@ -117,5 +111,17 @@ public class expansiveWave : MonoBehaviour
                     Destroy(bullet);
             }
         }
+    }
+    // Utilizar una carga
+    public void TryActivateWave()
+    {
+        if (Time.timeScale == 0f)
+            return;
+
+        if (currentCharges <= 0 || waveIsActive)
+            return;
+
+        currentCharges--;
+        StartCoroutine(ExpandWaveFromPlayer());
     }
 }
