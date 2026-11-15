@@ -752,6 +752,7 @@ GameObject:
   m_Component:
   - component: {fileID: 378322855}
   - component: {fileID: 378322854}
+  - component: {fileID: 378322856}
   m_Layer: 0
   m_Name: ShopTest
   m_TagString: Untagged
@@ -796,6 +797,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &378322856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378322853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2696af92912a9d84b8a771488d8ad05d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RewardFacade
+  shop: {fileID: 378322854}
 --- !u!1 &399686804
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,7 +1044,7 @@ MonoBehaviour:
   - {fileID: 388088347521277833, guid: 4b2440254a72aa44298d64b62f88f96b, type: 3}
   - {fileID: 762209814863994000, guid: f7db1ca93afe219479a997ea021d2ef2, type: 3}
   bossSpawnpoint: {fileID: 399686805}
-  shop: {fileID: 378322854}
+  rewards: {fileID: 378322856}
   enemyTag: Enemie
 --- !u!4 &414468905
 Transform:

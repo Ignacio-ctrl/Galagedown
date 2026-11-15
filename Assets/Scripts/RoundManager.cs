@@ -18,8 +18,9 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private Button button3;
     [SerializeField] private GameObject[] bossPrefabs;
     [SerializeField] private Transform bossSpawnpoint;
+   
 
-    [SerializeField] private ShopStockTest shop;
+    [SerializeField] private RewardFacade rewards;
 
     [SerializeField] private string enemyTag = "Enemie";
 
@@ -222,43 +223,35 @@ public class RoundManager : MonoBehaviour
 
             ShopItem reward = null;
 
-            if (shop != null)
-                reward = shop.GiveEliteReward();
+            if (rewards != null)
+                reward = rewards.CompleteBossRound();
 
             if (reward != null)
             {
                 message += "\nRecompensa: " + reward.displayName;
             }
 
-            if (ScoreManager.Instance != null)
-            {
-                ScoreManager.Instance.AddScore(800);
-                message += "\n+800 puntos";
-            }
+            message += "\n+800 puntos";
+
         }
         // Recompensa por completar un elite
         else if (currentSector == "Elite")
         {
             ShopItem reward = null;
 
-            if (shop != null)
-                reward = shop.GiveEliteReward();
+            if (rewards != null)
+                reward = rewards.CompleteEliteRound();
 
             if (reward != null)
             {
-                message += "\nRecompensa elite: " +
-                    reward.displayName;
+                message += "\nRecompensa elite: " + reward.displayName;
             }
             else
             {
                 message += "\nNo quedan recompensas elite";
             }
 
-            if (ScoreManager.Instance != null)
-            {
-                ScoreManager.Instance.AddScore(300);
-                message += "\n+300 puntos";
-            }
+            message += "\n+300 puntos";
         }
 
         ShowOptions(message);
@@ -359,7 +352,7 @@ public class RoundManager : MonoBehaviour
         }
 
         //Si no esta la tienda no se avanza
-        if(nextSector == "Tienda" && shop == null)
+        if(nextSector == "Tienda" && (rewards  == null || !rewards.HasShop))
         {
             return;
         }
@@ -378,7 +371,7 @@ public class RoundManager : MonoBehaviour
         //si se elige tienda no inicia el combate
         if(currentSector == "Tienda")
         {
-            shop.OpenShop();
+            rewards.OpenShop();
             return;
         }
 
