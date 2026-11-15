@@ -1,45 +1,122 @@
+
 using System.Collections;
 using UnityEngine;
 
 public class RadialShotWeapon : MonoBehaviour
 {
+    
     [SerializeField] private RadialShotPattern shotPattern;
 
-    private bool onShotPattern = false;
-    private void Update()
+    
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform firePoint;
+
+    private bool isShooting = false;
+
+    public bool ShootPattern(float initialAngle = 0f)
     {
-        if (onShotPattern)
-            return;
+        if (!isActiveAndEnabled || isShooting)
+            return false;
 
-        StartCoroutine(ExecuteRadialShotPattern(shotPattern));
-    }
+        if (shotPattern == null || bulletPrefab == null)
+            return false;
 
-    private IEnumerator ExecuteRadialShotPattern(RadialShotPattern pattern)
-    {
-        onShotPattern = true;
-        int lap = 0;
-        Vector2 aimDirection = transform.up;
-        Vector2 center = transform.position;
+        if (shotPattern.PatternSettings == null ||
+            shotPattern.PatternSettings.Length == 0 ||
+            shotPattern.Repetitions <= 0)
+            return false;
 
-        yield return new WaitForSeconds(pattern.StarWait);  
-
-        while (lap < pattern.Repetitions)
+        if (bulletPrefab.GetComponent<bulletMovement>() == null)
         {
-            if (lap > 0 && pattern.AngleOffsetBetweenReps != 0f)
-            {
-                aimDirection = aimDirection.Rotate(pattern.AngleOffsetBetweenReps);
-            }
-
-            for (int i = 0; i < pattern.PatternSettings.Length; i++)
-            {
-                ShotAttack.RadialShot(center, aimDirection, pattern.PatternSettings[i]);
-                yield return new WaitForSeconds(pattern.PatternSettings[i].CooldownAfterShot);
-            }
-            lap++;
+            Debug.LogError(
+                "El proyectil necesita bulletMovement", this);
+            return false;
         }
 
-        yield return new WaitForSeconds(pattern.EndWait);
+        StartCoroutine(ExecutePattern(initialAngle));
+        return true;
+    }
 
-        onShotPattern = false;
+    private IEnumerator ExecutePattern(float initialAngle)
+    {
+        isShooting = true;
+
+        if (shotPattern.StarWait > 0f)
+            yield return new WaitForSeconds(shotPattern.StarWait);
+
+        for (int lap = 0; lap < shotPattern.Repetitions; lap++)
+        {
+            float rotation =
+                initialAngle +
+                shotPattern.AngleOffsetBetweenReps * lap;
+
+            for (int i = 0; i < shotPattern.PatternSettings.Length; i++)
+            {
+                RadialShotSettings settings =
+                    shotPattern.PatternSettings[i];
+
+                if (settings == null ||
+                    settings.NumberOfBullets <= 0)
+                    continue;
+
+                FireWave(settings, rotation);
+
+                yield return new WaitForSeconds(
+                    Mathf.Max(0.05f, settings.CooldownAfterShot));
+            }
+        }
+
+        if (shotPattern.EndWait > 0f)
+            yield return new WaitForSeconds(shotPattern.EndWait);
+
+        isShooting = false;
+    }
+
+    private void FireWave(RadialShotSettings settings, float rotation)
+    {
+        float step = 360f / settings.NumberOfBullets;
+
+        for (int i = 0; i < settings.NumberOfBullets; i++)
+        {
+            float angle = i * step;
+
+            if (settings.RadialMask &&
+                angle > settings.MaskAngle)
+                break;
+
+            float finalAngle =
+                rotation +
+                settings.AngleOffset +
+                settings.PhaseOffset * step +
+                angle;
+
+            Vector3 position =
+                firePoint != null
+                ? firePoint.position
+                : transform.position;
+
+            //bulletMovement avanza usando transform.up
+            Quaternion bulletRotation =
+                Quaternion.Euler(0f, 0f, finalAngle - 90f);
+
+            GameObject bullet = Instantiate(
+                bulletPrefab,
+                position,
+                bulletRotation);
+
+            bulletMovement movement =
+                bullet.GetComponent<bulletMovement>();
+
+            //conservamos el daño del prefab
+            movement.Configure(
+                settings.BulletSpeed,
+                movement.damage);
+        }
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        isShooting = false;
     }
 }

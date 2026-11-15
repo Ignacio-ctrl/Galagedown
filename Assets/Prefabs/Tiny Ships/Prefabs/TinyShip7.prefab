@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 6850720287911329716}
   - component: {fileID: 5149759157382572519}
   - component: {fileID: 3600735066567739436}
+  - component: {fileID: -4556538607927284968}
   m_Layer: 0
   m_Name: TinyShip7
   m_TagString: Enemie
@@ -47,6 +48,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3178404556274533205
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -65,6 +67,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -86,9 +90,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -59435107
   m_SortingLayer: 1
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -121797934, guid: 8a7eaf1f6f21bc04b81b8cecf959e874, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -98,7 +104,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &8887388667552342792
 Animator:
@@ -627,9 +632,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 8715827179424569840, guid: 991acf7bfd620454d90accb6d548c1bb, type: 3}
-  bulletsPerTentacle: 8
-  tentacleInterval: 0.5
   aimedShotInterval: 1
+  tentacleInterval: 0.5
   firePoint: {fileID: 3578379643399752226}
 --- !u!114 &3600735066567739436
 MonoBehaviour:
@@ -653,6 +657,21 @@ MonoBehaviour:
   - Boundary
   fuerzaRebote: 5
   usarFisica: 1
+--- !u!114 &-4556538607927284968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 762209814863994000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33ac1fff2932db14b81dd1deabb33454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RadialShotWeapon
+  shotPattern: {fileID: 11400000, guid: 466cb2684665ebd4c832b76c15300205, type: 2}
+  bulletPrefab: {fileID: 8715827179424569840, guid: 991acf7bfd620454d90accb6d548c1bb, type: 3}
+  firePoint: {fileID: 3578379643399752226}
 --- !u!1 &6226589200249640856
 GameObject:
   m_ObjectHideFlags: 0
