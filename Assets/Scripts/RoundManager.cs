@@ -65,6 +65,14 @@ public class RoundManager : MonoBehaviour
         graph.AddEdge("Tienda", "Combate", 0);
         graph.AddEdge("Tienda", "Elite", 2);
 
+        //antes del boss
+        graph.AddEdge("AntesBoss", "Combate", 0);
+
+        //despues de boss
+        graph.AddEdge("Boss", "Combate", 0);
+        graph.AddEdge("Boss", "Elite", 2);
+        graph.AddEdge("Boss", "Tienda", 0);
+
         StartRound();
         
     }
@@ -82,8 +90,8 @@ public class RoundManager : MonoBehaviour
 
     void StartRound()
     {
-        // Cada 6 rondas aparece un Boss
-        isBossRound = currentRound % 6 == 0;
+
+        isBossRound = currentSector == "Boss";
         activeBoss = null;
 
         if (isBossRound)
@@ -259,7 +267,15 @@ public class RoundManager : MonoBehaviour
     void ShowOptions(string message = "")
     {
         //tenemos los vecinos del sector actual
-        options = graph.GetNeighbors(currentSector);
+        //si es multiplo de 6 solo aparece camino boss
+        if((currentRound + 1) % 6 == 0)
+        {
+            options = graph.GetNeighbors("AntesBoss");
+        }
+        else
+        {
+            options = graph.GetNeighbors(currentSector);
+        }
 
         if(options == null || options.Count == 0)
         {
@@ -322,6 +338,24 @@ public class RoundManager : MonoBehaviour
             return;
 
         string nextSector = options[index].to;
+
+        //revisar que el boss este 
+        if(nextSector == "Boss")
+        {
+            int bossIndex = (currentRound + 1) / 6 - 1;
+
+            if (bossPrefabs == null || bossPrefabs.Length == 0 || bossSpawnpoint == null)
+            {
+                return;
+            }
+
+            bossIndex = bossIndex % bossPrefabs.Length;
+
+            if (bossPrefabs[bossIndex] == null)
+            {
+                return;
+            }
+        }
 
         //Si no esta la tienda no se avanza
         if(nextSector == "Tienda" && shop == null)

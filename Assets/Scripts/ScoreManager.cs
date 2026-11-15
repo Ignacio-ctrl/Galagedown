@@ -24,4 +24,15 @@ public class ScoreManager : MonoBehaviour
         Debug.Log("Puntuación actual: " + CurrentScore);
         // aca agregamos llamada a la funcion que actualiza el texto en pantalla
     }
+
+    private void OnEnable()
+    {
+        //suscribirse a la muerte de los enemigos
+        enemieHealth.OnEnemyKilled += AddScore;
+    }
+
+    private void OnDisable()
+    {
+        enemieHealth.OnEnemyKilled -= AddScore;
+    }
 }

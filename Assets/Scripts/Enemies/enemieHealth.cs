@@ -10,6 +10,9 @@ public class enemieHealth : MonoBehaviour
 
     [SerializeField] private int scoreValue = 100;
 
+    //avisa que el enemigo muere
+    public static event System.Action<int> OnEnemyKilled;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,8 +40,11 @@ public class enemieHealth : MonoBehaviour
                 Debug.Log("Vida restante del enemigo: " + EnemieHealth); 
                 if (EnemieHealth <= 0)
                 {
+                    //avisa que el enmigo muere
+                    OnEnemyKilled?.Invoke(scoreValue);
+
                     Destroy(gameObject);
-                    ScoreManager.Instance.AddScore(scoreValue);
+                    
                 }
             }
         }
