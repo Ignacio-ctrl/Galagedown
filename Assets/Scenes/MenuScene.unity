@@ -653,7 +653,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1085744669}
         m_TargetAssemblyTypeName: scenesMan, Assembly-CSharp
-        m_MethodName: actLvlSelect
+        m_MethodName: level1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -852,7 +852,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &196950521
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3694,9 +3694,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2326046bfc92f3846a3c38c7878bc6cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStateManager
-  HasSpeedBoost: 0
-  HasShield: 0
-  HasDamageBoost: 0
 --- !u!4 &838823973
 Transform:
   m_ObjectHideFlags: 0

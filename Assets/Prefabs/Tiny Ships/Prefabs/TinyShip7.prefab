@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 5149759157382572519}
   - component: {fileID: 3600735066567739436}
   - component: {fileID: -4556538607927284968}
+  - component: {fileID: 5720048012978168016}
   m_Layer: 0
   m_Name: TinyShip7
   m_TagString: Enemie
@@ -672,6 +673,21 @@ MonoBehaviour:
   shotPattern: {fileID: 11400000, guid: 466cb2684665ebd4c832b76c15300205, type: 2}
   bulletPrefab: {fileID: 8715827179424569840, guid: 991acf7bfd620454d90accb6d548c1bb, type: 3}
   firePoint: {fileID: 3578379643399752226}
+--- !u!114 &5720048012978168016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 762209814863994000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 260a79a9ec241534d8a8f073d0de92b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemieHealth
+  EnemieHealth: 400
+  checkInterval: 1
+  scoreValue: 100
 --- !u!1 &6226589200249640856
 GameObject:
   m_ObjectHideFlags: 0
