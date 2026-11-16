@@ -31,12 +31,15 @@ public class enemieHealth : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // la bala ya fue devuelta al pool en este mismo frame
+        if (!collision.gameObject.activeInHierarchy) return;
+
         if (EnemieHealth > 0)
         {
             if (collision.gameObject.CompareTag("AllyBullet"))
             {
-                EnemieHealth -= collision.gameObject.GetComponent<bulletMovement>().damage; 
-                Destroy(collision.gameObject); 
+                EnemieHealth -= collision.gameObject.GetComponent<bulletMovement>().damage;
+                BulletPool.Return(collision.gameObject);
                 Debug.Log("Vida restante del enemigo: " + EnemieHealth); 
                 if (EnemieHealth <= 0)
                 {

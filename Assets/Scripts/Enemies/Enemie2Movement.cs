@@ -150,7 +150,7 @@ public class FanEnemy : MonoBehaviour
         if (bulletPrefab != null && bulletSpawnPoint != null)
         {
             Quaternion bulletRotation = Quaternion.Euler(0, 0, rb.rotation + angle);
-            GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletRotation);
+            GameObject bullet = BulletPool.Instance.Get(bulletPrefab, bulletSpawnPoint.position, bulletRotation);
 
             // Sistema simple de movimiento
             BulletMover mover = bullet.GetComponent<BulletMover>();
@@ -187,17 +187,24 @@ public class FanEnemy : MonoBehaviour
 public class BulletMover : MonoBehaviour
 {
     private float speed;
-    private float lifetime = 3f; // Destruir después de 3 segundos
+    private float timer;
+    private float lifetime = 3f; // Se devuelve al pool después de 3 segundos
 
     public void Setup(float bulletSpeed)
     {
         speed = bulletSpeed;
-        Destroy(gameObject, lifetime); // Auto-destrucción
+        timer = 0f; // se reinicia en cada disparo (la bala viene del pool)
     }
 
     void Update()
     {
         transform.Translate(Vector2.up * speed * Time.deltaTime, Space.Self);
+
+        timer += Time.deltaTime;
+        if (timer >= lifetime)
+        {
+            BulletPool.Return(gameObject);
+        }
     }
 }
 

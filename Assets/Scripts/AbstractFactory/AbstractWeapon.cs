@@ -70,7 +70,7 @@ public abstract class AbstractWeapon : MonoBehaviour
             firePoint.rotation * Quaternion.Euler(0, 0, angle);
 
         GameObject projectile =
-            Instantiate(bulletPrefab, position, rotation);
+            BulletPool.Instance.Get(bulletPrefab, position, rotation);
 
         bulletMovement bullet =
             projectile.GetComponent<bulletMovement>();

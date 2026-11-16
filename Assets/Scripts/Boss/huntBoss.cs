@@ -127,10 +127,10 @@ public class huntBoss : MonoBehaviour
     void DispararBalaRapida()
     {
         // Crear bala en el punto de disparo con la rotación actual
-        Instantiate(balaPrefab, puntoDisparo.position, puntoDisparo.rotation);
+        BulletPool.Instance.Get(balaPrefab, puntoDisparo.position, puntoDisparo.rotation);
 
-        
-        
+
+
     }
 
     

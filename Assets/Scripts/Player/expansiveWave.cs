@@ -108,7 +108,7 @@ public class expansiveWave : MonoBehaviour
                 );
 
                 if (distance <= radius)
-                    Destroy(bullet);
+                    BulletPool.Return(bullet);
             }
         }
     }

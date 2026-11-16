@@ -10,14 +10,36 @@ public class hunterBullet : MonoBehaviour
     private Transform objetivo;
     private Rigidbody2D rb;
 
-    void Start()
+    private float velocidadInicial;
+    private bool inicialGuardada;
+    private float timer;
+
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, tiempoVida);
+        velocidadInicial = velocidad;
+        inicialGuardada = true;
+    }
+
+    // la bala viene del pool: se reinicia cada vez que se activa
+    void OnEnable()
+    {
+        if (inicialGuardada)
+            velocidad = velocidadInicial;
+
+        objetivo = null;
+        timer = 0f;
     }
 
     void Update()
     {
+        timer += Time.deltaTime;
+        if (timer >= tiempoVida)
+        {
+            BulletPool.Return(gameObject);
+            return;
+        }
+
         if (objetivo != null)
         {
             PerseguirObjetivo();
@@ -61,8 +83,8 @@ public class hunterBullet : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Destruir misil al tocar jugador
-            Destroy(gameObject);
+            // Devolver misil al pool al tocar jugador
+            BulletPool.Return(gameObject);
         }
     }
 }

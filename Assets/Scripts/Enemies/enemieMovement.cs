@@ -160,7 +160,7 @@ public class enemieMovement : MonoBehaviour
             return;
         }
 
-        Instantiate(
+        BulletPool.Instance.Get(
             bullet,
             bulletSpawnPoint.position,
             bulletSpawnPoint.rotation);

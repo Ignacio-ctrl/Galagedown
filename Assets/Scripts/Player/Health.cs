@@ -23,11 +23,14 @@ public class health : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // la bala ya fue devuelta al pool en este mismo frame
+        if (!collision.gameObject.activeInHierarchy) return;
+
         if (collision.gameObject.CompareTag("EnemieBullet"))
         {
             float bulletDamage = collision.gameObject.GetComponent<bulletMovement>().damage;
 
-            Destroy(collision.gameObject);
+            BulletPool.Return(collision.gameObject);
 
             TakeDamage(bulletDamage);
         }

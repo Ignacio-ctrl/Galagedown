@@ -106,7 +106,7 @@ public class BossController : MonoBehaviour
     {
         if (bulletPrefab != null && bulletSpawnPoint != null)
         {
-            Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            BulletPool.Instance.Get(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
             if (normalAttackSound != null)
             {
@@ -119,10 +119,10 @@ public class BossController : MonoBehaviour
     {
         if (bulletPrefab == null || bulletSpawnPoint == null) return;
 
-        Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.Euler(0, 0, 0)); 
-        Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.Euler(0, 0, 90));  
-        Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.Euler(0, 0, 180));
-        Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.Euler(0, 0, 270)); 
+        BulletPool.Instance.Get(bulletPrefab, bulletSpawnPoint.position, Quaternion.Euler(0, 0, 0));
+        BulletPool.Instance.Get(bulletPrefab, bulletSpawnPoint.position, Quaternion.Euler(0, 0, 90));
+        BulletPool.Instance.Get(bulletPrefab, bulletSpawnPoint.position, Quaternion.Euler(0, 0, 180));
+        BulletPool.Instance.Get(bulletPrefab, bulletSpawnPoint.position, Quaternion.Euler(0, 0, 270)); 
 
         if (shotgunAttackSound != null)
         {

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BulletBoss : MonoBehaviour
@@ -8,9 +7,14 @@ public class BulletBoss : MonoBehaviour
 
     public Vector2 Velocity;
 
+    private void OnEnable()
+    {
+        lifeTime = 0f;
+    }
+
     private void Update()
     {
-        transform.position += (Vector3) Velocity * Time.deltaTime;
+        transform.position += (Vector3)Velocity * Time.deltaTime;
         lifeTime += Time.deltaTime;
 
         if (lifeTime > MAX_LIFE_TIME)
@@ -18,9 +22,10 @@ public class BulletBoss : MonoBehaviour
             Disable();
         }
     }
+
     private void Disable()
     {
         lifeTime = 0f;
-        gameObject.SetActive(false);
+        BulletPool.Return(gameObject);
     }
 }

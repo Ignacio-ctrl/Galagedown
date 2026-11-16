@@ -99,7 +99,7 @@ public class RadialShotWeapon : MonoBehaviour
             Quaternion bulletRotation =
                 Quaternion.Euler(0f, 0f, finalAngle - 90f);
 
-            GameObject bullet = Instantiate(
+            GameObject bullet = BulletPool.Instance.Get(
                 bulletPrefab,
                 position,
                 bulletRotation);
