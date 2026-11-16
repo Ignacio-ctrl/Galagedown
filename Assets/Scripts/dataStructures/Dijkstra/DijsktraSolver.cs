@@ -53,6 +53,8 @@ public class DijsktraSolver<T>: IPathfindingSolver<T>
                 {
                     result[neighbors[i].to].weight = totalWeight;
                     result[neighbors[i].to].to = current; //actualizamos el nodo anterior para poder reconstruir el camino
+                    // agregamos el vecino a la cola de prioridad con el nuevo peso
+                    unvisited.Enqueue(neighbors[i].to, totalWeight);
                 }
                   
 
@@ -124,7 +126,11 @@ public class DijsktraSolver<T>: IPathfindingSolver<T>
                 if (totalWeight < table[neighbors[i].to].weight)
                 {
                     table[neighbors[i].to].weight = totalWeight;
-                    table[neighbors[i].to].to = current; //actualizamos el nodo anterior para poder reconstruir el camino
+                    table[neighbors[i].to].to = current;//actualizamos el nodo anterior para poder reconstruir el camino
+                    // agregamos el vecino a la cola de prioridad con el nuevo peso
+                    unvisited.Enqueue(neighbors[i].to, totalWeight); 
+
+
                 }
                    
                 //agregamos vecino a la queue si no lo visitamos
