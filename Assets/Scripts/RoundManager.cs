@@ -33,6 +33,7 @@ public class RoundManager : MonoBehaviour
 
     private string currentSector = "Inicio";
 
+    private readonly ISimpleSet<string> visitedSectorsTypes = new SimpleArraySet<string>();
     //opciones para la sig ronda
     private ISimpleList<Edge<string>> options;
 
@@ -71,6 +72,8 @@ public class RoundManager : MonoBehaviour
         graph.AddEdge("Boss", "Combate", 0);
         graph.AddEdge("Boss", "Elite", 2);
         graph.AddEdge("Boss", "Tienda", 0);
+
+        visitedSectorsTypes.Add(currentSector);
 
         StartRound();
         
@@ -300,7 +303,12 @@ public class RoundManager : MonoBehaviour
 
                 if(text != null)
                 {
-                    text.text = options[i].to;
+                    //nombre del sector y si fue visitado
+                    string sectorName = options[i].to;
+
+                    bool visited = visitedSectorsTypes.Contains(sectorName);
+                    //si fue visitado se indica
+                    text.text = sectorName + (visited ? " (visitado)" : " (Nuevo)");
                 }
             }
         }
@@ -357,6 +365,9 @@ public class RoundManager : MonoBehaviour
 
         // Guardamos el sector seleccionado
         currentSector = options[index].to;
+
+        // Guardamos el sector visitado para no repetirlo
+        visitedSectorsTypes.Add(currentSector);
 
         // El peso indica cuantos enemigos extra agregar
         extraEnemies = options[index].weight;
