@@ -210,6 +210,12 @@ public class BST<T> where T : IComparable
     {
         // Inicializamos la lista que vamos a devolver y la queue
         ISimpleList<T> result = new SimpleArrayList<T>(count);
+
+        if (root == null)
+        {
+            return result;
+        }
+
         SimpleLinkedQueue<TreeNode<T>> queue = new();
         queue.Enqueue(root);
 
@@ -218,8 +224,16 @@ public class BST<T> where T : IComparable
         {
             TreeNode<T> current = queue.Dequeue();
             result.Add(current.Value);
-            queue.Enqueue(current.Left);
-            queue.Enqueue(current.Right);
+
+            if (current.Left != null)
+            {
+                queue.Enqueue(current.Left);
+            }
+                
+            if (current.Right != null)
+            {
+                queue.Enqueue(current.Right);
+            }
         }
 
         return result;
