@@ -319,6 +319,13 @@ public class RoundManager : MonoBehaviour
             roundText.text = message + "\nElegi el siguiente sector";
         }
 
+        string reccomendSector = null;
+        //cuando toca boss no se recomienda nada
+        if ((currentRound + 1) % 6 != 0)
+        {
+            reccomendSector = FindNearestNewSector();
+        }
+
         //botones que tienen los dif caminos
         Button[] buttons = { button1, button2, button3 };
 
@@ -339,7 +346,16 @@ public class RoundManager : MonoBehaviour
 
                     bool visited = visitedSectorsTypes.Contains(sectorName);
                     //si fue visitado se indica
-                    text.text = sectorName + (visited ? " (visitado)" : " (Nuevo)");
+
+                    if (sectorName == reccomendSector)
+                    {
+                        text.text = sectorName + " (Sugerido)";
+                    }
+                    else
+                    {
+                        text.text = sectorName + (visited ? " (Visitado)" : " (Nuevo)");
+                    }
+
                 }
             }
         }
@@ -433,5 +449,58 @@ public class RoundManager : MonoBehaviour
 
         ShowOptions();
    }
+
+
+
+    private string FindNearestNewSector()
+    {
+        SimpleLinkedQueue<string> queue =
+            new SimpleLinkedQueue<string>();
+
+        SimpleArraySet<string> visited =
+            new SimpleArraySet<string>();
+
+        queue.Enqueue(currentSector);
+        visited.Add(currentSector);
+
+        while (!queue.IsEmpty)
+        {
+            string sector = queue.Dequeue();
+
+            // Encontramos un sector que todavía no visitamos
+            if (sector != currentSector &&
+                !visitedSectorsTypes.Contains(sector))
+            {
+                return sector;
+            }
+
+            ISimpleList<Edge<string>> neighbors =
+                graph.GetNeighbors(sector);
+
+            if (neighbors == null)
+                continue;
+
+            for (int i = 0; i < neighbors.Count; i++)
+            {
+                string next = neighbors[i].to;
+
+                // El Boss se maneja por rondas
+                if (next == "Boss" || next == "AntesBoss")
+                    continue;
+
+                // No recomendamos una tienda inexistente
+                if (next == "Tienda" &&
+                    (rewards == null || !rewards.HasShop))
+                    continue;
+
+                if (visited.Add(next))
+                    queue.Enqueue(next);
+            }
+        }
+
+        return null;
+    }
+
+
 
 }
