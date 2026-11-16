@@ -4,6 +4,7 @@ using UnityEngine.VFX;
 using UnityEngine.UI;
 using Unity.Collections;
 using Galagedon.DataStructures.CoreStructures;
+using Galagedon.Estructuras;
 
 public class RoundManager : MonoBehaviour
 {
@@ -27,6 +28,10 @@ public class RoundManager : MonoBehaviour
 
     private int currentRound = 1;
     private bool roundInProgress = false;
+    // historial puntaje de la ronda
+    private readonly BST<ScoreEntry> roundScores = new BST<ScoreEntry>();
+
+    private int scoreAtRoundStart;
 
     //grafo de sectores de la ronda
     private ListGraph<string> graph = new ListGraph<string>();
@@ -92,6 +97,8 @@ public class RoundManager : MonoBehaviour
 
     void StartRound()
     {
+        // Guardamos el puntaje al inicio de la ronda
+        scoreAtRoundStart = ScoreManager.Instance != null ? ScoreManager.Instance.CurrentScore : 0;
 
         isBossRound = currentSector == "Boss";
         activeBoss = null;
@@ -254,6 +261,30 @@ public class RoundManager : MonoBehaviour
 
             message += "\n+300 puntos";
         }
+
+        
+        if (ScoreManager.Instance != null)
+        {
+            int pointsEarned = ScoreManager.Instance.CurrentScore - scoreAtRoundStart;
+            // Guardamos el puntaje de la ronda en nuestro BST
+            ScoreEntry roundEntry = new ScoreEntry("Ronda " + currentRound + " (" + currentSector + ")", pointsEarned );
+
+            // Guardamos el resultado en nuestro BST
+            roundScores.Insert(roundEntry);
+
+            // El BST devuelve las mejores puntuaciones primero
+            var bestRounds = roundScores.GetDescendingElements();
+
+            message += "\nPuntos obtenidos: " + pointsEarned;
+
+            if (bestRounds.Count > 0)
+            {
+                ScoreEntry best = bestRounds[0];
+
+                message += "\nMejor ronda: " + best.PlayerName + " - " + best.Points + " pts";
+            }
+        }
+
 
         ShowOptions(message);
     }
