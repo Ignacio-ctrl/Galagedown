@@ -50,7 +50,11 @@ public class DijsktraSolver<T>: IPathfindingSolver<T>
                 //si el costo total es menor al que esta en la tabla para el vecino
                 // actualizamos ese coto con el que calculamos 
                 if(totalWeight < result[neighbors[i].to].weight)
+                {
                     result[neighbors[i].to].weight = totalWeight;
+                    result[neighbors[i].to].to = current; //actualizamos el nodo anterior para poder reconstruir el camino
+                }
+                  
 
 
             }
@@ -118,7 +122,11 @@ public class DijsktraSolver<T>: IPathfindingSolver<T>
                 //si el costo total es menor al que esta en la tabla para el vecino
                 // actualizamos ese costo con el que calculamos 
                 if (totalWeight < table[neighbors[i].to].weight)
+                {
                     table[neighbors[i].to].weight = totalWeight;
+                    table[neighbors[i].to].to = current; //actualizamos el nodo anterior para poder reconstruir el camino
+                }
+                   
                 //agregamos vecino a la queue si no lo visitamos
                 if (!visited.Contains(neighbors[i].to))
                     unvisited.Enqueue(neighbors[i].to, totalWeight);
