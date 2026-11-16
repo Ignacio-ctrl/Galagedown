@@ -2,7 +2,7 @@ using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class enemieMovement : MonoBehaviour
+public class enemieMovement : MonoBehaviour, IDifficultyConfigurable
 {
     private enum EnemyAction
     {

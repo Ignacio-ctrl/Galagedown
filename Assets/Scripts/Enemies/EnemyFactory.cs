@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public static class EnemyFactory
@@ -17,42 +16,38 @@ public static class EnemyFactory
         GameObject enemy =
             Object.Instantiate(prefab, position, rotation);
 
-        //busca el tipo de enemigo
-        EnemyTypeHolder holder = enemy.GetComponent<EnemyTypeHolder>();
-
-        //dificultad segun ronda
+        // Dificultad segun ronda
         float finalSpeed = speedMultiplier;
         float finalCadence = cadenceMultiplier;
 
-        //aplica estadisticas
-        if(holder != null && holder.data != null)
+        // Type Object: los multiplicadores propios del tipo de enemigo
+        EnemyTypeHolder holder = enemy.GetComponent<EnemyTypeHolder>();
+
+        if (holder != null && holder.data != null)
         {
             finalSpeed *= holder.data.speedMultiplier;
             finalCadence *= holder.data.cadenceMultiplier;
         }
 
-        // Configuramos su velocidad y cadencia enem normal
-        enemieMovement movement =
-            enemy.GetComponent<enemieMovement>();
+        // Configura a cualquier componente que cumpla el contrato,
+        // sin conocer qué enemigo concreto es
+        IDifficultyConfigurable[] configurables =
+            enemy.GetComponents<IDifficultyConfigurable>();
 
-        if (movement != null)
+        for (int i = 0; i < configurables.Length; i++)
         {
-            movement.ConfigureDifficulty(
-                finalSpeed,
-                finalCadence);
-        }
-
-        //enemigo nuevo
-        FanEnemy fan = enemy.GetComponent<FanEnemy>();
-
-        if (fan != null)
-        {
-            fan.ConfigureDifficulty(
-                finalSpeed,
-                finalCadence);
+            configurables[i].ConfigureDifficulty(finalSpeed, finalCadence);
         }
 
         return enemy;
     }
-}
 
+    // Para enemigos que aparecen fuera de las rondas (por ejemplo la horda)
+    public static GameObject CreateEnemy(
+        GameObject prefab,
+        Vector3 position,
+        Quaternion rotation)
+    {
+        return CreateEnemy(prefab, position, rotation, 1f, 1f);
+    }
+}

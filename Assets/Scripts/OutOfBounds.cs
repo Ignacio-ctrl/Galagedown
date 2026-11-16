@@ -94,7 +94,7 @@ public class OutOfBounds : MonoBehaviour
             spawnPosition += (spawnPosition - transform.position).normalized * enemySRadius;
 
             // Instanciar enemigo
-            Instantiate(EnemyPrefab, spawnPosition, Quaternion.identity);
+            EnemyFactory.CreateEnemy(EnemyPrefab, spawnPosition, Quaternion.identity);
         }
     
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class FanEnemy : MonoBehaviour
+public class FanEnemy : MonoBehaviour, IDifficultyConfigurable
 {
     [Header("Movimiento")]
     [SerializeField] private float speed = 3f;
