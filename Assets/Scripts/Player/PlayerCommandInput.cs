@@ -5,6 +5,7 @@ public class PlayerCommandInput : MonoBehaviour
 {
     private IPlayerCommand attackCommand;
     private IPlayerCommand waveCommand;
+    private IPlayerCommand previousWeaponCommand;
 
     private IPlayerCommand[] weaponCommands;
 
@@ -17,6 +18,7 @@ public class PlayerCommandInput : MonoBehaviour
         //se crean los comandos
         attackCommand = new AttackCommand(weapons);
         waveCommand = new WaveCommand(wave);
+        previousWeaponCommand = new PreviousWeaponCommand(weapons);
 
         weaponCommands = new IPlayerCommand[]
         {
@@ -65,6 +67,11 @@ public class PlayerCommandInput : MonoBehaviour
         {
             weaponCommands[3].Execute();
         }
+        //volver a arma anterior
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            previousWeaponCommand.Execute();
+        }
 
-   }
+    }
 }

@@ -15,6 +15,8 @@ public class PlayerWeaponController : MonoBehaviour
         new SimpleArrayDictionary<WeaponType, AbstractWeapon>();
 
     private AbstractWeapon currentWeapon;
+    private WeaponType currentWeaponType;
+    private readonly SimpleArrayStack<WeaponType> weaponHistory =new SimpleArrayStack<WeaponType>(5);
     private readonly int[] ownedTiers = {1,0,0,0};
 
     public AbstractWeapon CurrentWeapon => currentWeapon;
@@ -54,26 +56,69 @@ public class PlayerWeaponController : MonoBehaviour
 
     public bool EquipWeapon(WeaponType type)
     {
+        return EquipWeaponInternal(type, true);
+    }
+
+    private bool EquipWeaponInternal(WeaponType type, bool saveHistory)
+    {
         int index = (int)type;
 
         if (index < 0 || index >= ownedTiers.Length)
+        {
             return false;
+        }
+           
 
         if (ownedTiers[index] == 0)
         {
-            Debug.Log("Arma no desbloqueada: " + type);
             return false;
         }
 
-        if (!weaponCatalog.TryGetValue(
-            type, out AbstractWeapon weapon) || weapon == null)
+        if (!weaponCatalog.TryGetValue(type, out AbstractWeapon weapon) || weapon == null)
+        {
             return false;
+        }
+            
+
+        // Si ya tenemos esta arma, no guardamos nada
+        if (currentWeapon == weapon)
+            return true;
+
+        // Guardamos la anterior solamente cuando corresponde
+        if (saveHistory && currentWeapon != null)
+        {
+            weaponHistory.PushDiscardOldest(currentWeaponType);
+        }
 
         currentWeapon = weapon;
+        currentWeaponType = type;
 
-        Debug.Log("Arma equipada: " + type);
+        
         return true;
     }
+
+
+    public bool EquipPreviousWeapon()
+    {
+        while (!weaponHistory.IsEmpty())
+        {
+            WeaponType previousWeapon = weaponHistory.Pop();
+
+            if (previousWeapon == currentWeaponType)
+            {
+                continue;
+            }
+               
+
+            if (EquipWeaponInternal(previousWeapon, false))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     public void Attack()
     {
