@@ -14,7 +14,7 @@ public interface ISimpleDictionary<Tkey, Tvalue>
     public void Add(Tkey key, Tvalue value);
     public bool Remove(Tkey key);
     public bool ContainsKey(Tkey key);
-    public bool TryAdd(Tkey key, out Tvalue value);
+    public bool TryAdd(Tkey key,Tvalue value);
     public bool TryGetValue(Tkey key, out Tvalue value);
 
     public void Clear();

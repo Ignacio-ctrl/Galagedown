@@ -80,15 +80,37 @@ public class SimpleArrayDictionary<Tkey, Tvalue> : ISimpleDictionary<Tkey, Tvalu
         return result; //devolvemos el array
     }
 
+
     public bool Remove(Tkey key)
     {
-        throw new System.NotImplementedException();
+        int index = IndexOf(key);
+
+        if (index == -1)
+            return false;
+
+        for (int i = index; i < count - 1; i++)
+        {
+            internalArray[i] = internalArray[i + 1];
+        }
+
+        count--;
+        internalArray[count] = default;
+
+        return true;
     }
 
-    public bool TryAdd(Tkey key, out Tvalue value)
+
+    public bool TryAdd(Tkey key, Tvalue value)
     {
-        throw new System.NotImplementedException();
+        if (ContainsKey(key))
+            return false;
+
+        ExcecuteAdd(key, value);
+
+        return true;
     }
+
+
 
     public bool TryGetValue(Tkey key, out Tvalue value)
     {
