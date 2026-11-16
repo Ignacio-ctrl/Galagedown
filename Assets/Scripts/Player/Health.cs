@@ -11,13 +11,12 @@ public class health : MonoBehaviour
         if (aHealth <= 0) return; 
 
         aHealth -= damage;
-        Debug.Log("Player hit! Remaining health: " + aHealth); 
+        Debug.Log("Player hit! Remaining health: " + aHealth);
 
         if (aHealth <= 0)
         {
             Destroy(gameObject);
-            PlayerPrefs.SetInt("PuntajeFinal", ScoreManager.Instance.CurrentScore);
-            SceneManager.LoadScene("Die"); 
+            GameManager.Instance.GameOver();
         }
     }
 

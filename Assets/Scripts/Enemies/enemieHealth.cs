@@ -1,12 +1,11 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class enemieHealth : MonoBehaviour
 {
 
      [SerializeField] public float EnemieHealth;
-    public float checkInterval = 1f;
-    private float checkTimer;
+    //public float checkInterval = 1f;
+    //private float checkTimer;
 
     [SerializeField] private int scoreValue = 100;
 
@@ -20,15 +19,15 @@ public class enemieHealth : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        checkTimer += Time.deltaTime;
-        if (checkTimer >= checkInterval)
-        {
-            checkTimer = 0f;
-            //CheckForEnemies();
-        }
-    }
+    //void Update()
+    //{
+    //    checkTimer += Time.deltaTime;
+    //    if (checkTimer >= checkInterval)
+    //    {
+    //        checkTimer = 0f;
+    //        //CheckForEnemies();
+    //    }
+    //}
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // la bala ya fue devuelta al pool en este mismo frame
@@ -52,17 +51,17 @@ public class enemieHealth : MonoBehaviour
             }
         }
     }
-    void CheckForEnemies()
-    {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemie");
+    //void CheckForEnemies()
+    //{
+    //    GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemie");
 
-        if (enemies.Length == 0)
-        {
-            win();
-        }
-    }
-    public void win()
-    {
-        SceneManager.LoadScene(2);
-    }
+    //    if (enemies.Length == 0)
+    //    {
+    //        win();
+    //    }
+    //}
+    //public void win()
+    //{
+    //    SceneManager.LoadScene(2);
+    //}
 }
