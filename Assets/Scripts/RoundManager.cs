@@ -84,6 +84,8 @@ public class RoundManager : MonoBehaviour
         graph.AddEdge("Boss", "Elite", 2);
         graph.AddEdge("Boss", "Tienda", 0);
 
+        PrepareDijkstra();
+
         visitedSectorsTypes.Add(currentSector);
 
         StartRound();
