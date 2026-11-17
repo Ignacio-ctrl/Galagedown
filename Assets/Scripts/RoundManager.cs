@@ -17,7 +17,7 @@ public class RoundManager : MonoBehaviour
     [SerializeField] private Button button3;
     [SerializeField] private GameObject[] bossPrefabs;
     [SerializeField] private Transform bossSpawnpoint;
-   
+
 
     [SerializeField] private RewardFacade rewards;
 
@@ -35,6 +35,12 @@ public class RoundManager : MonoBehaviour
 
     //grafo de sectores de la ronda
     private ListGraph<string> graph = new ListGraph<string>();
+
+    private ListGraph<GraphNode<string>> dijkstraGraph = new ListGraph<GraphNode<string>>();
+
+    private SimpleArrayDictionary<string, GraphNode<string>> sectorNode = new SimpleArrayDictionary<string, GraphNode<string>>();
+
+    private DijsktraSolver<string> dijsktra = new DijsktraSolver<string>();
 
     private string currentSector = "Inicio";
 
@@ -81,17 +87,17 @@ public class RoundManager : MonoBehaviour
         visitedSectorsTypes.Add(currentSector);
 
         StartRound();
-        
+
     }
 
-    
+
     void Update()
     {
-        if(!roundInProgress)
+        if (!roundInProgress)
         {
             return;
         }
-        CheckRound();   
+        CheckRound();
     }
 
 
@@ -124,13 +130,13 @@ public class RoundManager : MonoBehaviour
 
                     roundInProgress = true;
 
-                    
+
                     return;
                 }
             }
 
             // Si falta configurar un Boss, hacemos ronda normal
-           
+
             isBossRound = false;
         }
 
@@ -183,7 +189,7 @@ public class RoundManager : MonoBehaviour
 
         roundInProgress = true;
 
-        
+
     }
 
 
@@ -193,16 +199,16 @@ public class RoundManager : MonoBehaviour
         //si es boss se espera a que este muera
         if (isBossRound)
         {
-            if(activeBoss == null)
+            if (activeBoss == null)
             {
                 FinishRound();
             }
             return;
         }
         //espera que los spawner terminen
-        for(int i = 0; i < spawners.Length; i++)
+        for (int i = 0; i < spawners.Length; i++)
         {
-            if(!spawners[i].FinishedSpawning)
+            if (!spawners[i].FinishedSpawning)
             {
                 return;
             }
@@ -211,9 +217,9 @@ public class RoundManager : MonoBehaviour
         //identifica los enemigos vivos
         GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
 
-        if(enemies.Length == 0)
+        if (enemies.Length == 0)
         {
-         FinishRound();
+            FinishRound();
         }
     }
 
@@ -262,12 +268,12 @@ public class RoundManager : MonoBehaviour
             message += "\n+300 puntos";
         }
 
-        
+
         if (ScoreManager.Instance != null)
         {
             int pointsEarned = ScoreManager.Instance.CurrentScore - scoreAtRoundStart;
             // Guardamos el puntaje de la ronda en nuestro BST
-            ScoreEntry roundEntry = new ScoreEntry("Ronda " + currentRound + " (" + currentSector + ")", pointsEarned );
+            ScoreEntry roundEntry = new ScoreEntry("Ronda " + currentRound + " (" + currentSector + ")", pointsEarned);
 
             // Guardamos el resultado en nuestro BST
             roundScores.Insert(roundEntry);
@@ -294,7 +300,7 @@ public class RoundManager : MonoBehaviour
     {
         //tenemos los vecinos del sector actual
         //si es multiplo de 6 solo aparece camino boss
-        if((currentRound + 1) % 6 == 0)
+        if ((currentRound + 1) % 6 == 0)
         {
             options = graph.GetNeighbors("AntesBoss");
         }
@@ -303,14 +309,18 @@ public class RoundManager : MonoBehaviour
             options = graph.GetNeighbors(currentSector);
         }
 
-        if(options == null || options.Count == 0)
+        if (options == null || options.Count == 0)
         {
             return;
         }
 
+        string origin = (currentRound + 1) % 6 == 0 ? "AntesBoss" : currentSector;
+
+        ISimpleDictionary<GraphNode<string>, Edge<GraphNode<string>>> distances = dijsktra.GetAllShortestPaths( sectorNode[origin], dijkstraGraph);
+
         roundPanel.SetActive(true);
 
-        if(message == "")
+        if (message == "")
         {
             roundText.text = "Sellecciona siguiente sector";
         }
@@ -329,7 +339,7 @@ public class RoundManager : MonoBehaviour
         //botones que tienen los dif caminos
         Button[] buttons = { button1, button2, button3 };
 
-        for(int i = 0; i < buttons.Length; i++)
+        for (int i = 0; i < buttons.Length; i++)
         {
             bool aviable = i < options.Count;
 
@@ -339,7 +349,7 @@ public class RoundManager : MonoBehaviour
             {
                 TMP_Text text = buttons[i].GetComponentInChildren<TMP_Text>();
 
-                if(text != null)
+                if (text != null)
                 {
                     //nombre del sector y si fue visitado
                     string sectorName = options[i].to;
@@ -354,6 +364,13 @@ public class RoundManager : MonoBehaviour
                     else
                     {
                         text.text = sectorName + (visited ? " (Visitado)" : " (Nuevo)");
+                    }
+
+                    int cost = distances[sectorNode[sectorName]].weight;
+
+                    if(cost != int.MaxValue)
+                    {
+                        text.text += "\n+" + cost + " enemigos";
                     }
 
                 }
@@ -387,7 +404,7 @@ public class RoundManager : MonoBehaviour
         string nextSector = options[index].to;
 
         //revisar que el boss este 
-        if(nextSector == "Boss")
+        if (nextSector == "Boss")
         {
             int bossIndex = (currentRound + 1) / 6 - 1;
 
@@ -405,7 +422,7 @@ public class RoundManager : MonoBehaviour
         }
 
         //Si no esta la tienda no se avanza
-        if(nextSector == "Tienda" && (rewards  == null || !rewards.HasShop))
+        if (nextSector == "Tienda" && (rewards == null || !rewards.HasShop))
         {
             return;
         }
@@ -425,7 +442,7 @@ public class RoundManager : MonoBehaviour
         Debug.Log("Sector elegido: " + currentSector);
 
         //si se elige tienda no inicia el combate
-        if(currentSector == "Tienda")
+        if (currentSector == "Tienda")
         {
             rewards.OpenShop();
             return;
@@ -434,21 +451,21 @@ public class RoundManager : MonoBehaviour
         //si no es tienda inicia ronda
         currentRound++;
 
-        
+
         Time.timeScale = 1f;
 
         StartRound();
     }
 
-   public void ShopFinished()
-   {
-        if(currentSector != "Tienda" || roundInProgress)
+    public void ShopFinished()
+    {
+        if (currentSector != "Tienda" || roundInProgress)
         {
             return;
         }
 
         ShowOptions();
-   }
+    }
 
 
 
@@ -501,6 +518,26 @@ public class RoundManager : MonoBehaviour
         return null;
     }
 
+    private void PrepareDijkstra()
+    {
+        string[] sectors = graph.Vertices;
 
+        //crear nodos
+        foreach (string sector in sectors)
+        {
+            sectorNode.Add(sector, new GraphNode<string>(sector));
+        }
 
+        foreach (string sector in sectors)
+        {
+            ISimpleList<Edge<string>> neighbors = graph.GetNeighbors(sector);
+
+            for (int i = 0; i < neighbors.Count; i++)
+            {
+                dijkstraGraph.AddEdge(sectorNode[sector], sectorNode[neighbors[i].to], neighbors[i].weight);
+            }
+        }
+    }
 }
+
+
