@@ -18,7 +18,7 @@ public class ShopStockTest : MonoBehaviour
     }
 
     private SortCriterion currentSort = SortCriterion.Rarity;
-    private bool ascending = false;
+   
 
     [SerializeField, Min(2)]
     private int stockSize = 4;
@@ -34,14 +34,17 @@ public class ShopStockTest : MonoBehaviour
     [SerializeField] private GameObject shopPanel;
     [SerializeField] private Button[] rewardButton;
     [SerializeField] private RoundManager roundManager;
-
+    // Recompensa seleccionada por el jugador
     public ShopItem SelectedReward { get; private set; }
     public bool ShopOpen => shopOpen;
 
     private void Awake()
     {
+        // Inicializa el catálogo de recompensas
         catalog = new SimpleArrayList<ShopItem>(10); // Initial capacity
 
+
+        // Agrega recompensas al catálogo
         // ARMAS
         Add("normal_2", "Normal MK-II",
             ShopCategory.Weapon, ShopRarity.Rare,
@@ -96,7 +99,7 @@ public class ShopStockTest : MonoBehaviour
             ShopCategory.Upgrade, ShopRarity.Legendary,
             "Damage", 4, 0.50f);
     }
-
+    // Agrega un nuevo item al catálogo
     private void Add(
         string id,
         string name,
@@ -136,13 +139,9 @@ public class ShopStockTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F7))
             SortStock(SortCriterion.Tier);
 
-        if (Input.GetKeyDown(KeyCode.F8))
-        {
-            ascending = !ascending;
-            SortStock(currentSort);
-        }
 
-        // SELECCION
+
+        // Seleccion para debug, usar botones en el juego real
         if (Input.GetKeyDown(KeyCode.F1))
             SelectItem(0);
 
@@ -424,14 +423,11 @@ public class ShopStockTest : MonoBehaviour
 
         CollectionSort.SortList(
             currentStock,
-            comparison,
-            ascending
+            comparison
+            
         );
 
-        Debug.Log(
-            "Ordenado por: " + criterion +
-            " | Ascendente: " + ascending
-        );
+      
 
         PrintStock();
         UpdateShopButtons();
